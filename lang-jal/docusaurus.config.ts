@@ -81,9 +81,97 @@ const config: Config = {
           label: 'Docs',
         },
         {
+          label: 'はじめる',
+          position: 'left',
+          items: [
+            {
+              label: 'ドキュメントトップ',
+              to: '/docs/',
+            },
+            {
+              label: 'はじめに',
+              to: '/docs/intro',
+            },
+            {
+              label: 'チュートリアル',
+              to: '/docs/usage/tutorial',
+            },
+            {
+              label: 'ツール導入',
+              to: '/docs/usage/tooling',
+            },
+          ],
+        },
+        {
+          label: '言語ガイド',
+          position: 'left',
+          items: [
+            {
+              label: '概要',
+              to: '/docs/language-guide',
+            },
+            {
+              label: '基礎',
+              to: '/docs/language-guide/basics',
+            },
+            {
+              label: '実行モデル',
+              to: '/docs/language-guide/runtime',
+            },
+            {
+              label: '制御と検証',
+              to: '/docs/language-guide/control',
+            },
+            {
+              label: '命令リファレンス',
+              to: '/docs/language-guide/runtime/instructions',
+            },
+          ],
+        },
+        {
+          label: 'サンプル',
+          position: 'left',
+          items: [
+            {
+              label: 'サンプル一覧',
+              to: '/docs/usage/examples',
+            },
+            {
+              label: '構文ガイド',
+              to: '/docs/language-guide/basics/syntax',
+            },
+            {
+              label: 'クラスファイルモデル',
+              to: '/docs/language-guide/basics/class-file-model',
+            },
+            {
+              label: 'StackMapFrame',
+              to: '/docs/language-guide/control/stackmap-and-verification',
+            },
+          ],
+        },
+        {
           href: 'https://plugins.jetbrains.com/plugin/27944-javasm',
           label: 'Javasm Plugin',
           position: 'right',
+        },
+        {
+          label: 'Tools',
+          position: 'right',
+          items: [
+            {
+              label: 'JAL CLI Compiler',
+              href: 'https://github.com/PeyaPeyaPeyang/LangJAL/releases',
+            },
+            {
+              label: 'Gradle Plugin',
+              href: 'https://github.com/PeyaPeyaPeyang/jal-gradle-plugin',
+            },
+            {
+              label: 'Javasm GitHub',
+              href: 'https://github.com/PeyaPeyaPeyang/Javasm',
+            },
+          ],
         },
         {
           href: 'https://github.com/PeyaPeyaPeyang/JavaAssemblyLanguage',

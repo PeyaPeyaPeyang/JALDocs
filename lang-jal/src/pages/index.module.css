@@ -61,6 +61,32 @@
   font-size: 1.18rem;
 }
 
+.navLabel,
+.buttonLabel,
+.inlineLinkLabel,
+.developerHeading,
+.developerLinkLabel,
+.metricLabel,
+.textLinkLabel,
+.timelineLabel,
+.toolLinkLabel {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.55rem;
+}
+
+.navLabel svg,
+.buttonLabel svg,
+.inlineLinkLabel svg,
+.developerHeading svg,
+.developerLinkLabel svg,
+.metricLabel svg,
+.textLinkLabel svg,
+.timelineLabel svg,
+.toolLinkLabel svg {
+  flex: 0 0 auto;
+}
+
 .retroSearch {
   align-self: start;
   background: #ffffff;
@@ -73,6 +99,9 @@
 }
 
 .retroSearch span {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.45rem;
   font-size: 0.9rem;
   line-height: 1.75rem;
   padding-left: 0.55rem;
@@ -80,7 +109,7 @@
 
 .retroSearch::after {
   border-left: 1px solid #bdbdbd;
-  content: "⌕";
+  content: "";
   font-size: 1rem;
   line-height: 1.75rem;
   text-align: center;
@@ -141,6 +170,10 @@
   text-decoration: none;
 }
 
+.buttonLabel {
+  justify-content: center;
+}
+
 .legacyLinks {
   align-items: center;
   color: #d00000;
@@ -159,9 +192,17 @@
 
 .legacyLinks a::before {
   color: #d00000;
-  content: "»";
+  content: "";
   margin-right: 0.45rem;
   text-decoration: none;
+}
+
+.inlineLinkLabel {
+  color: #333333;
+}
+
+.inlineLinkLabel svg {
+  color: #d00000;
 }
 
 .developerBox {
@@ -177,11 +218,23 @@
   margin-bottom: 0.75rem;
 }
 
+.developerHeading {
+  color: #202020;
+}
+
 .developerBox a {
   color: #1e3268;
   display: block;
   line-height: 1.35;
   text-decoration: underline;
+}
+
+.developerBox a + a {
+  margin-top: 0.45rem;
+}
+
+.developerLinkLabel svg {
+  color: #d00000;
 }
 
 .heroBottom {
@@ -214,12 +267,18 @@
   box-shadow: 0 10px 12px rgba(0, 0, 0, 0.08);
   color: #173040;
   display: flex;
+  flex-direction: column;
   font-size: 1rem;
   font-weight: 800;
+  gap: 0.5rem;
   height: clamp(4.8rem, 7.2vw, 7.5rem);
   justify-content: center;
   padding: 0.8rem;
   text-align: center;
+}
+
+.tileIcon {
+  font-size: 1.15rem;
 }
 
 .legacyTile:nth-child(2) {
@@ -380,6 +439,14 @@
   margin-bottom: 0.25rem;
 }
 
+.metricLabel {
+  color: inherit;
+}
+
+.metricLabel svg {
+  color: #35c6d3;
+}
+
 .metrics dd {
   color: #aebacc;
   font-size: 0.85rem;
@@ -488,12 +555,24 @@
   padding: 1.35rem;
 }
 
+.featureTop {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
 .featureIndex {
   color: #3d72c0;
   display: inline-block;
   font-size: 0.82rem;
   font-weight: 900;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0;
+}
+
+.featureIcon {
+  color: #d8774e;
+  font-size: 1.1rem;
 }
 
 .feature h3,
@@ -540,6 +619,10 @@
   margin-top: 1.25rem;
 }
 
+.textLinkLabel svg {
+  color: #d8774e;
+}
+
 .workflow {
   margin: 0 auto;
   max-width: 1180px;
@@ -554,6 +637,10 @@
 .timelineItem {
   border-left: 4px solid #3d72c0;
   padding: 0.35rem 1rem;
+}
+
+.timelineLabel svg {
+  color: inherit;
 }
 
 .timelineItem:nth-child(2) {
@@ -588,9 +675,16 @@
   padding: 0.9rem 1rem;
 }
 
-.toolLinks a::after {
+.toolLinkLabel {
+  color: inherit;
+}
+
+.toolLinkLabel svg {
   color: #d8774e;
-  content: "->";
+}
+
+.toolLinkArrow {
+  color: #d8774e;
   font-weight: 900;
 }
 
