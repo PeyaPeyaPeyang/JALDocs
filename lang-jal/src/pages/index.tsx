@@ -139,7 +139,7 @@ function HomepageHeader(): ReactNode {
           <div className={styles.retroBarInner}>
             <div className={styles.retroBrand}>
               <img className={styles.logoMark} src={logoUrl} alt="" />
-              <span>JAL</span>
+              <span>Jal<span className={styles.trademark}>™</span></span>
             </div>
             <nav className={styles.retroNav} aria-label="Primary">
               <Link to="/docs/intro">
@@ -174,7 +174,7 @@ function HomepageHeader(): ReactNode {
             <div className={styles.actions}>
               <Link className={styles.downloadButton} to="/docs/intro">
                 <IconLabel className={styles.buttonLabel} icon={faDownload}>
-                  無料JALを始める
+                  無料Jalのダウンロード
                 </IconLabel>
               </Link>
             </div>

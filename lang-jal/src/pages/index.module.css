@@ -1,6 +1,7 @@
 .hero {
   background: #ffffff;
   color: #1e1e1e;
+  font-family: "M PLUS 1p", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
   min-height: 100vh;
   padding: 1cm;
 }
@@ -43,6 +44,7 @@
 
 .retroBrand span {
   color: #ffffff;
+  font-family: "Fira Sans", sans-serif;
   font-size: 2.75rem;
   font-weight: 400;
 }
@@ -157,7 +159,7 @@
   color: #ffffff;
   display: inline-block;
   font-size: 1.12rem;
-  font-weight: 800;
+  font-weight: 500;
   min-width: 22rem;
   padding: 0.9rem 1.75rem;
   text-align: center;
@@ -199,10 +201,27 @@
 
 .inlineLinkLabel {
   color: #333333;
+  display: inline;
 }
 
 .inlineLinkLabel svg {
   color: #d00000;
+  margin-right: 0.4rem;
+  vertical-align: -0.08em;
+}
+
+.inlineLinkLabel > span {
+  text-decoration: underline;
+}
+
+.legacyLinks .inlineLinkLabel svg {
+  display: none;
+}
+
+.retroNav .navLabel svg,
+.developerHeading svg,
+.developerLinkLabel svg {
+  display: none;
 }
 
 .developerBox {
@@ -338,9 +357,9 @@
 .oracleLikeLogo {
   bottom: 0.75rem;
   color: #ee0000;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
   font-size: clamp(1rem, 1.7vw, 1.6rem);
-  font-weight: 700;
+  font-weight: 550;
   letter-spacing: 0.08em;
   line-height: 1;
   position: absolute;
@@ -817,4 +836,10 @@
     align-items: flex-start;
     flex-direction: column;
   }
+}
+
+span.trademark {
+  font-size: 15px;
+  position: relative;
+  top: -1.4em;
 }
