@@ -38,22 +38,22 @@ public static twice(I)I {
 `;
 
 const branchTrace = `
-.L_check:
+L_check:
 ↑ - | 0: count; 1: writer
   iload count
   ↑ count | 0: count; 1: writer
-  ifle .L_done
+  ifle L_done
   ↑ - | 0: count; 1: writer
   aload writer
   ↑ writer | 0: count; 1: writer
-  ldc "verified"
-  ↑ writer; "verified" | 0: count; 1: writer
+  ldc "Hello, World!"
+  ↑ writer; "Hello, World!" | 0: count; 1: writer
   invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
   ↑ - | 0: count; 1: writer
-  goto .L_check
+  goto L_check
   ↑ - | 0: count; 1: writer
 
-.L_done:
+L_done:
 ↑ - | 0: count; 1: writer
   return
   ↑ - | 0: count; 1: writer
@@ -129,7 +129,7 @@ function ModernIntro(): ReactNode {
         <div className={styles.modernCopy}>
           <div className={styles.brandLine}>
             <img className={styles.modernLogo} src={logoUrl} alt="" />
-            <span>Java Assembly Language</span>
+            <span>JVM Assembly Language</span>
           </div>
           <h2>機械語の入口に，JVM バイトコードを。</h2>
           <p>
@@ -308,7 +308,7 @@ export default function Home(): ReactNode {
 
   return (
     <Layout
-      title={`${siteConfig.title} - Java Assembly Language`}
+      title={`${siteConfig.title} - JVM Assembly Language`}
       description="JAL is a readable assembly language for the Java Virtual Machine."
       wrapperClassName={navbarVisible ? 'homePageNoNavbar navbarVisible' : 'homePageNoNavbar'}>
       <HomepageHeader />

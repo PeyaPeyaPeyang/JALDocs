@@ -47,7 +47,7 @@
   align-items: center;
   display: grid;
   gap: 4rem;
-  grid-template-columns: minmax(0, 1fr) minmax(24rem, 36rem);
+  grid-template-columns: minmax(0, 1fr) minmax(24rem, 35rem);
   margin: 0 auto;
   max-width: 1180px;
   min-height: 34rem;
@@ -277,13 +277,16 @@
   align-items: center;
   display: grid;
   gap: 3rem;
-  grid-template-columns: minmax(0, 1fr) minmax(24rem, 36rem);
+  grid-template-columns: minmax(0, 1fr) minmax(24rem, 40rem);
   margin: 0 auto;
   max-width: 1180px;
 }
 
 .inlineCode {
   box-shadow: none;
+  justify-self: end;
+  min-width: 0;
+  width: min(100%, 40rem);
 }
 
 .textLink {

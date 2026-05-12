@@ -57,7 +57,7 @@ Gradle ビルドに組み込む場合は [jal-gradle-plugin](https://github.com/
 
 ## 関連リンク
 
-- [JAL language repository](https://github.com/PeyaPeyaPeyang/JavaAssemblyLanguage)
+- [JAL language repository](https://github.com/PeyaPeyaPeyang/JVMAssemblyLanguage)
 - [Javasm repository](https://github.com/PeyaPeyaPeyang/Javasm)
 - [JAL CLI Compiler releases](https://github.com/PeyaPeyaPeyang/LangJAL/releases)
 - [Javasm IntelliJ Plugin](https://plugins.jetbrains.com/plugin/27944-javasm)

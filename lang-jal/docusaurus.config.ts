@@ -12,18 +12,22 @@ const config: Config = {
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
+    faster: {
+      rspackBundler: false,
+      rspackPersistentCache: false,
+    },
   },
 
   // Set the production url of your site here
   url: 'https://peyapeyapeyang.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/JavaAssemblyLanguage/',
+  baseUrl: '/JVMAssemblyLanguage/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'PeyaPeyaPeyang',
-  projectName: 'JavaAssemblyLanguage',
+  projectName: 'JVMAssemblyLanguage',
 
   onBrokenLinks: 'throw',
 
@@ -42,7 +46,7 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl:
-            'https://github.com/PeyaPeyaPeyang/JavaAssemblyLanguage/tree/main/docs/lang-jal/',
+            'https://github.com/PeyaPeyaPeyang/JVMAssemblyLanguage/tree/main/docs/lang-jal/',
         },
         blog: false,
         theme: {
@@ -174,7 +178,7 @@ const config: Config = {
           ],
         },
         {
-          href: 'https://github.com/PeyaPeyaPeyang/JavaAssemblyLanguage',
+          href: 'https://github.com/PeyaPeyaPeyang/JVMAssemblyLanguage',
           label: 'GitHub',
           position: 'right',
         },
@@ -222,7 +226,7 @@ const config: Config = {
             },
             {
               label: 'Language GitHub',
-              href: 'https://github.com/PeyaPeyaPeyang/JavaAssemblyLanguage',
+              href: 'https://github.com/PeyaPeyaPeyang/JVMAssemblyLanguage',
             },
           ],
         },
