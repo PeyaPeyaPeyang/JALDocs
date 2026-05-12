@@ -8,6 +8,15 @@ const sidebars: SidebarsConfig = {
     'intro',
     {
       type: 'category',
+      label: 'チュートリアルと使い方',
+      link: {
+        type: 'doc',
+        id: 'usage/README',
+      },
+      items: ['usage/README', 'usage/tutorial', 'usage/tooling', 'usage/examples'],
+    },
+    {
+      type: 'category',
       label: '言語ガイド',
       link: {
         type: 'doc',
@@ -61,15 +70,6 @@ const sidebars: SidebarsConfig = {
           ],
         },
       ],
-    },
-    {
-      type: 'category',
-      label: '使い方',
-      link: {
-        type: 'doc',
-        id: 'usage/README',
-      },
-      items: ['usage/README', 'usage/tooling', 'usage/examples'],
     },
   ],
 };

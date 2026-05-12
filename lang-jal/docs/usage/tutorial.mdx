@@ -1,0 +1,110 @@
+---
+title: チュートリアル
+description: IntelliJ IDEA と Javasm で JAL の HelloWorld を作成して実行する。
+sidebar_pos: 0
+---
+
+# チュートリアル
+
+このページでは，IntelliJ IDEA と Javasm IntelliJ Plugin を使って，最初の JAL プログラムを作成し，JVM バイトコードとして実行するところまでを扱います。
+
+JAL は JVM 向けのアセンブリ言語です。Java のソースコードを経由せず，`getstatic`，`ldc`，`invokevirtual` のような JVM 命令を直接並べて `.class` を生成できます。Jasmin と同じく JVM バイトコードを人間が書ける形にするための言語ですが，Java に近いクラス宣言，名前付きローカル変数，StackMapFrame の自動生成，IntelliJ IDEA 連携を重視しています。
+
+## 事前準備
+
+次のものを用意してください。
+
+- IntelliJ IDEA Community Edition または Ultimate Edition
+- JDK 17 以降
+- Javasm IntelliJ Plugin
+
+Javasm は JetBrains Marketplace からインストールできます。IntelliJ IDEA の **Settings | Plugins | Marketplace** で `Javasm` を検索し，インストール後に IDE を再起動してください。
+
+![Javasm plugin installation screen](/img/tutorial/installing-plugin.png)
+
+## プロジェクトを作成する
+
+IntelliJ IDEA の起動画面で **New Project** を選び，Java プロジェクトを作成します。
+
+設定例:
+
+| 項目 | 値 |
+| --- | --- |
+| Name | `MyJALProject` |
+| Language | Java |
+| JDK | 17 以降 |
+| Add sample code | オフ |
+
+![Creating a Java project](/img/tutorial/creating-java-project.png)
+
+作成後，プロジェクト直下に `src/main/jal` を作ります。`src` を右クリックして **New | Package** を選び，`main.jal` と入力すると `src/main/jal` をまとめて作成できます。
+
+JAL ファイルを置く場所を IDEA に認識させるため，`src/main/jal` を Source Root にします。既存の `src` が Source Root になっている場合は一度解除し，`jal` ディレクトリを右クリックして **Mark Directory as | Source Root** を選んでください。
+
+## JAL ファイルを作成する
+
+`src/main/jal` を右クリックし，**New | JAL Class** を選びます。名前は `HelloWorld` にします。作成されるファイルは `HelloWorld.jal` です。
+
+![Created JAL file](/img/tutorial/created-jal-file.png)
+
+初期状態では，クラスのひな形が生成されます。`major_version` と `minor_version` は class ファイルのバージョンで，省略した場合はコンパイル環境に応じた値が使われます。コンストラクタも省略できます。
+
+## HelloWorld を書く
+
+`HelloWorld.jal` を次の内容に置き換えます。
+
+```jal
+public class HelloWorld {
+  public static main([Ljava/lang/String;)V {
+    getstatic java/lang/System->out:Ljava/io/PrintStream;
+    ldc "Hello, World!"
+    invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
+    return
+  }
+}
+```
+
+![HelloWorld in JAL](/img/tutorial/hello-world.png)
+
+このコードは，Java で書くと次の処理に相当します。
+
+```java
+public class HelloWorld {
+  public static void main(String[] args) {
+    System.out.println("Hello, World!");
+  }
+}
+```
+
+JAL では Java の `String[]` を JVM のメソッド記述子で表すため，`main` の引数は `[Ljava/lang/String;` と書きます。戻り値の `V` は `void` を表します。
+
+## 命令を読む
+
+HelloWorld の本体は 4 命令だけです。
+
+| 命令 | 役割 |
+| --- | --- |
+| `getstatic java/lang/System->out:Ljava/io/PrintStream;` | `System.out` をオペランドスタックへ積む |
+| `ldc "Hello, World!"` | 文字列リテラルをオペランドスタックへ積む |
+| `invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V` | `PrintStream.println(String)` を呼び出す |
+| `return` | `void` メソッドから戻る |
+
+JVM の命令は，多くの場合，オペランドスタックを介して値を受け渡しします。この例では `getstatic` で `PrintStream`，`ldc` で文字列を積み，`invokevirtual` がそれらを取り出して `println` を実行します。
+
+## 実行する
+
+`main` メソッドの左に表示される実行アイコンをクリックし，`Run 'HelloWorld'` または `Debug 'HelloWorld'` を選びます。Javasm が JAL をコンパイルし，生成された bytecode を JVM 上で実行します。
+
+![Run HelloWorld](/img/tutorial/hello-world-result.png)
+
+コンソールに次のように表示されれば成功です。
+
+```text
+Hello, World!
+```
+
+## 次に読むページ
+
+JAL の構文をもう少し詳しく見る場合は [構文](../language-guide/basics/syntax.md) へ進んでください。命令実行時のスタックの動きは [スタックとローカル変数](../language-guide/runtime/stack-and-locals.md) で説明しています。CLI や Gradle での使い方は [ツール](./tooling.md) を参照してください。
+
+このページは，Zenn の記事 [Reading the JVM | Hacking the JVM Part 1: Environment Setup](https://zenn.dev/peyang/articles/reading-jvm-chapter-03?locale=en) を元に，docs 向けの手順として再構成しています。

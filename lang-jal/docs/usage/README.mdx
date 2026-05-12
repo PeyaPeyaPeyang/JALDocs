@@ -1,15 +1,24 @@
----
-title: 使い方
-description: JAL のコンパイル，IDE 連携，サンプルの入口。
----
-
 import DocCard from "@theme/DocCard";
 
 # 使い方
 
+JAL のコンパイル，IDE 連携，サンプルの入口。
+
+---
+
 この階層では，JAL を実際にコンパイルして動かすためのツールとサンプルを扱います。言語仕様を確認したい場合は [言語ガイド](../language-guide/README.mdx) を参照してください。
 
 ## ページ一覧
+
+<DocCard
+  item={{
+    type: "link",
+    label: "チュートリアル",
+    docId: "usage/tutorial",
+    href: "/docs/usage/tutorial",
+    description: "IntelliJ IDEA と Javasm で HelloWorld を作成して実行する。",
+  }}
+/>
 
 <DocCard
   item={{
@@ -31,4 +40,4 @@ import DocCard from "@theme/DocCard";
   }}
 />
 
-まずは [ツール](./tooling.md) でコンパイル方法を確認し，[サンプル](./examples.md) の `.jal` ファイルをビルドして動作を見てください。
+まずは [チュートリアル](./tutorial.mdx) で HelloWorld を動かし，続けて [ツール](./tooling.md) でコンパイル方法を確認してください。実例を増やしたい場合は [サンプル](./examples.md) の `.jal` ファイルをビルドして動作を見てください。
