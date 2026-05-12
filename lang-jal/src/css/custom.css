@@ -104,6 +104,10 @@ a {
     var(--ifm-background-color);
 }
 
+.main-wrapper.homePageNoNavbar {
+  padding-top: 0 !important;
+}
+
 .theme-doc-sidebar-container {
   background: color-mix(in srgb, var(--site-panel) 92%, transparent);
   border-right: 1px solid var(--site-border) !important;
@@ -253,6 +257,16 @@ a {
   color: #b9c5d6;
 }
 
-body:has(.homePageNoNavbar) .navbar {
+body.home-navbar-hidden .navbar {
   display: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-100%);
+}
+
+body.home-navbar-hidden.home-navbar-visible .navbar {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
