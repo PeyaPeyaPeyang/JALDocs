@@ -3,7 +3,7 @@
   color: #1e1e1e;
   font-family: "M PLUS 1p", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
   min-height: 100vh;
-  padding: 1cm;
+  padding: 0 1cm 1cm;
 }
 
 .retroFrame {
@@ -11,6 +11,10 @@
   margin: 0 auto;
   position: relative;
   width: min(83.333%, calc((100vh - 2cm) * 4 / 3));
+}
+
+.retroFrame a:hover span {
+  color: #d00000;
 }
 
 .retroBar {
