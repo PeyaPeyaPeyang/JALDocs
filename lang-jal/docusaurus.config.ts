@@ -51,6 +51,16 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
+  plugins: [
+    function jalPrismPlugin() {
+      return {
+        name: 'jal-prism',
+        getClientModules() {
+          return [require.resolve('./src/prism/jal')];
+        },
+      };
+    },
+  ],
 
   themeConfig: {
     image: 'img/jal-logo.svg',

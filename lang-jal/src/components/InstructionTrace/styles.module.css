@@ -1,0 +1,261 @@
+.trace {
+  margin: 1rem 0;
+  overflow: visible;
+}
+
+.codeBlock {
+  background: var(--prism-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  color: var(--prism-color);
+  font: var(--ifm-code-font-size) / 1.65 var(--ifm-font-family-monospace);
+  overflow: visible;
+  padding: 1rem 0;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 3rem minmax(18rem, 1fr);
+  min-height: 1.65rem;
+  outline: none;
+  position: relative;
+}
+
+.line:hover,
+.line:focus-visible {
+  background: var(--docusaurus-highlighted-code-line-bg);
+}
+
+.lineNumber {
+  color: var(--ifm-color-emphasis-600);
+  padding-right: 1rem;
+  text-align: right;
+  user-select: none;
+}
+
+.instruction {
+  display: inline-flex;
+  padding-right: 1.25rem;
+  white-space: pre;
+}
+
+.instruction :global(.token.comment) {
+  color: #6a737d;
+  font-style: italic;
+}
+
+.instruction :global(.token.string) {
+  color: #032f62;
+}
+
+.instruction :global(.token.keyword) {
+  color: #d73a49;
+}
+
+.instruction :global(.token.instruction),
+.instruction :global(.token.builtin) {
+  color: #005cc5;
+  font-weight: 600;
+}
+
+.instruction :global(.token.class-name),
+.instruction :global(.token.method-descriptor),
+.instruction :global(.token.type-descriptor) {
+  color: #6f42c1;
+}
+
+.instruction :global(.token.function),
+.instruction :global(.token.property),
+.instruction :global(.token.variable) {
+  color: #6f42c1;
+}
+
+.instruction :global(.token.number),
+.instruction :global(.token.boolean) {
+  color: #005cc5;
+}
+
+.instruction :global(.token.symbol),
+.instruction :global(.token.label) {
+  color: #22863a;
+  font-weight: 600;
+}
+
+.instruction :global(.token.operator),
+.instruction :global(.token.punctuation) {
+  color: #586069;
+}
+
+.indent {
+  flex: 0 0 auto;
+}
+
+.tooltip {
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  color: var(--ifm-font-color-base);
+  display: none;
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.86rem;
+  left: min(28rem, 45vw);
+  line-height: 1.45;
+  max-width: min(34rem, calc(100vw - 4rem));
+  min-width: 19rem;
+  padding: 0.75rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: normal;
+  z-index: 5;
+}
+
+.line:hover .tooltip,
+.line:focus-visible .tooltip {
+  display: block;
+}
+
+.tooltipTitle {
+  display: block;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.stateGrid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.stateLabel {
+  color: var(--ifm-color-emphasis-700);
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+
+.stateList {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.stateList li,
+.empty {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 4px;
+  display: block;
+  padding: 0.15rem 0.35rem;
+}
+
+.empty {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.typeInt {
+  background: rgba(0, 127, 140, 0.14);
+  border-color: rgba(0, 127, 140, 0.34);
+}
+
+.typeLong {
+  background: rgba(148, 88, 0, 0.15);
+  border-color: rgba(148, 88, 0, 0.36);
+}
+
+.typeReference {
+  background: rgba(105, 73, 174, 0.15);
+  border-color: rgba(105, 73, 174, 0.36);
+}
+
+.typeUnknown {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.stateList code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+[data-theme='dark'] .typeInt {
+  background: rgba(53, 198, 211, 0.2);
+  border-color: rgba(53, 198, 211, 0.45);
+}
+
+[data-theme='dark'] .typeLong {
+  background: rgba(245, 166, 35, 0.2);
+  border-color: rgba(245, 166, 35, 0.46);
+}
+
+[data-theme='dark'] .typeReference {
+  background: rgba(179, 151, 255, 0.2);
+  border-color: rgba(179, 151, 255, 0.46);
+}
+
+[data-theme='dark'] .instruction :global(.token.comment) {
+  color: #8b949e;
+}
+
+[data-theme='dark'] .instruction :global(.token.string) {
+  color: #a5d6ff;
+}
+
+[data-theme='dark'] .instruction :global(.token.keyword) {
+  color: #ff7b72;
+}
+
+[data-theme='dark'] .instruction :global(.token.instruction),
+[data-theme='dark'] .instruction :global(.token.builtin) {
+  color: #79c0ff;
+}
+
+[data-theme='dark'] .instruction :global(.token.class-name),
+[data-theme='dark'] .instruction :global(.token.method-descriptor),
+[data-theme='dark'] .instruction :global(.token.type-descriptor) {
+  color: #d2a8ff;
+}
+
+[data-theme='dark'] .instruction :global(.token.function),
+[data-theme='dark'] .instruction :global(.token.property),
+[data-theme='dark'] .instruction :global(.token.variable) {
+  color: #d2a8ff;
+}
+
+[data-theme='dark'] .instruction :global(.token.number),
+[data-theme='dark'] .instruction :global(.token.boolean) {
+  color: #79c0ff;
+}
+
+[data-theme='dark'] .instruction :global(.token.symbol),
+[data-theme='dark'] .instruction :global(.token.label) {
+  color: #7ee787;
+}
+
+[data-theme='dark'] .instruction :global(.token.operator),
+[data-theme='dark'] .instruction :global(.token.punctuation) {
+  color: #c9d1d9;
+}
+
+@media (max-width: 760px) {
+  .line {
+    grid-template-columns: 2.5rem minmax(14rem, 1fr);
+  }
+
+  .tooltip {
+    left: 0.75rem;
+    right: 0.75rem;
+    top: calc(100% + 0.35rem);
+    transform: none;
+  }
+
+  .stateGrid {
+    grid-template-columns: 1fr;
+  }
+}

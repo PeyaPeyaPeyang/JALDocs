@@ -3,6 +3,8 @@ title: クラス、フィールド、メソッド
 description: JAL におけるクラス定義、フィールド定義、コンストラクタ、static 初期化子の書き方。
 ---
 
+import InstructionTrace from '@site/src/components/InstructionTrace';
+
 # クラス、フィールド、メソッド
 
 JAL のトップレベルはクラスまたはインターフェースです。Java ソースと似た単語を使いますが、書いているものは JVM クラスファイルに近い構造です。クラスの属性、フィールドの型、メソッド記述子を明示するため、Java コンパイラが普段隠している情報を自分で指定します。
@@ -11,22 +13,26 @@ JAL のトップレベルはクラスまたはインターフェースです。J
 
 最小のクラスは次のように書けます。
 
-```jal
-public class Empty (
-  major_version=55,
-  minor_version=0) {
-}
-```
+<InstructionTrace
+  trace={ `
+  public class Empty (
+    major_version=55,
+    minor_version=0) {
+  }
+`}
+/>
 
 `major_version` と `minor_version` は class ファイルのバージョンです。`super_class` を省略した場合は、通常 `java/lang/Object` を親クラスとして扱います。
 
-```jal
-public final class App (
-  major_version=61,
-  minor_version=0,
-  super_class=java/lang/Object) {
-}
-```
+<InstructionTrace
+  trace={ `
+  public final class App (
+    major_version=61,
+    minor_version=0,
+    super_class=java/lang/Object) {
+  }
+`}
+/>
 
 クラス名や親クラス名は JVM 内部名で書きます。パッケージ付きのクラスなら `com/example/App` のように `/` を使います。
 
@@ -34,14 +40,16 @@ public final class App (
 
 インターフェースは `interface` で定義します。
 
-```jal
-public abstract interface Printer (
-  major_version=55,
-  minor_version=0) {
+<InstructionTrace
+  trace={ `
+  public abstract interface Printer (
+    major_version=55,
+    minor_version=0) {
 
-  public abstract print(Ljava/lang/String;)V
-}
-```
+    public abstract print(Ljava/lang/String;)V
+  }
+`}
+/>
 
 インターフェースの抽象メソッドは本体を持たない形で表現される場合があります。具体的な記法は、プロジェクト内のサポート範囲に合わせて既存のサンプルやテストとそろえてください。
 
@@ -49,11 +57,13 @@ public abstract interface Printer (
 
 フィールドは `名前:型記述子` の形で書きます。
 
-```jal
-private count:I = 0;
-public static final MESSAGE:Ljava/lang/String; = "ready";
-volatile current:I;
-```
+<InstructionTrace
+  trace={ `
+  private count:I = 0;
+  public static final MESSAGE:Ljava/lang/String; = "ready";
+  volatile current:I;
+`}
+/>
 
 フィールドの型は JVM 型記述子です。`I` は int、`J` は long、`Ljava/lang/String;` は `String`、`[I` は int 配列です。
 
@@ -73,13 +83,19 @@ volatile current:I;
 
 インスタンスメソッドでは、ローカル変数スロット 0 に `this` が入ります。
 
-```jal
-public getCount()I {
-  aload_0
-  getfield Counter->count:I
-  ireturn
-}
-```
+<InstructionTrace
+  trace={ `
+  public getCount()I {
+  ↑ - | 0: this
+    aload_0
+    ↑ this | 0: this
+    getfield Counter->count:I
+    ↑ this.count | 0: this
+    ireturn
+    ↑ - | 0: this
+  }
+`}
+/>
 
 `aload_0` で `this` を積み、`getfield` がそのオブジェクトから `count` を読みます。`getfield` は対象オブジェクトをスタックから取り出すため、フィールド参照の前に必ず参照を積んでおく必要があります。
 
@@ -87,14 +103,21 @@ public getCount()I {
 
 static メソッドには `this` がありません。引数はスロット 0 から始まります。
 
-```jal
-public static add(II)I {
-  iload_0
-  iload_1
-  iadd
-  ireturn
-}
-```
+<InstructionTrace
+  trace={ `
+  public static add(II)I {
+  ↑ - | 0: left; 1: right
+    iload_0
+    ↑ left | 0: left; 1: right
+    iload_1
+    ↑ left; right | 0: left; 1: right
+    iadd
+    ↑ left + right | 0: left; 1: right
+    ireturn
+    ↑ - | 0: left; 1: right
+  }
+`}
+/>
 
 同じ `(II)I` でも、インスタンスメソッドならスロット 1 と 2 が引数になります。static かどうかでスロット配置が変わる点は、JAL でよくあるつまずきです。
 
@@ -102,27 +125,42 @@ public static add(II)I {
 
 コンストラクタは JVM では `<init>` という特殊メソッドです。通常、最初に `this` を積み、親クラスのコンストラクタを `invokespecial` で呼びます。
 
-```jal
-public <init>()V {
-  aload_0
-  invokespecial java/lang/Object-><init>()V
-  return
-}
-```
+<InstructionTrace
+  trace={ `
+  public <init>()V {
+  ↑ - | 0: this
+    aload_0
+    ↑ this | 0: this
+    invokespecial java/lang/Object-><init>()V
+    ↑ - | 0: this
+    return
+    ↑ - | 0: this
+  }
+`}
+/>
 
 フィールドを初期化する場合は、親コンストラクタ呼び出しの後に `putfield` を使います。
 
-```jal
-public <init>(I)V {
-  aload_0
-  invokespecial java/lang/Object-><init>()V
+<InstructionTrace
+  trace={ `
+  public <init>(I)V {
+  ↑ - | 0: this; 1: count
+    aload_0
+    ↑ this | 0: this; 1: count
+    invokespecial java/lang/Object-><init>()V
+    ↑ - | 0: this; 1: count
 
-  aload_0
-  iload_1
-  putfield Counter->count:I
-  return
-}
-```
+    aload_0
+    ↑ this | 0: this; 1: count
+    iload_1
+    ↑ this; count | 0: this; 1: count
+    putfield Counter->count:I
+    ↑ - | 0: this; 1: count
+    return
+    ↑ - | 0: this; 1: count
+  }
+`}
+/>
 
 `putfield` はスタックから「対象オブジェクト」と「代入する値」を取り出します。この例では `aload_0` で `this`、`iload_1` でコンストラクタ引数を積んでいます。
 
@@ -130,15 +168,21 @@ public <init>(I)V {
 
 static フィールドの初期化やクラスロード時の処理は `<clinit>` に書きます。
 
-```jal
-private static total:I = 0;
+<InstructionTrace
+  trace={ `
+  private static total:I = 0;
 
-static <clinit>()V {
-  iconst_0
-  putstatic Counter->total:I
-  return
-}
-```
+  static <clinit>()V {
+  ↑ - | -
+    iconst_0
+    ↑ 0 | -
+    putstatic Counter->total:I
+    ↑ - | -
+    return
+    ↑ - | -
+  }
+`}
+/>
 
 `putstatic` は対象オブジェクトを必要としません。フィールドに入れる値だけをスタックに積みます。
 
@@ -155,11 +199,16 @@ static <clinit>()V {
 
 `System.out.println` の前に使う `getstatic` は、`System.out` が static フィールドだからです。
 
-```jal
-getstatic java/lang/System->out:Ljava/io/PrintStream;
-ldc "hello"
-invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
-```
+<InstructionTrace
+  trace={ `
+  getstatic java/lang/System->out:Ljava/io/PrintStream;
+  ↑ System.out | -
+  ldc "hello"
+  ↑ System.out; "hello" | -
+  invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
+  ↑ - | -
+`}
+/>
 
 ## メンバーを書くときの基準
 

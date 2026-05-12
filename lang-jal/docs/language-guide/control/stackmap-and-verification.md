@@ -3,6 +3,8 @@ title: StackMapFrame と検証
 description: JVM 検証、StackMapFrame、自動生成される情報、JAL で意識すべきスタック整合性。
 ---
 
+import InstructionTrace from '@site/src/components/InstructionTrace';
+
 # StackMapFrame と検証
 
 現代の JVM では、class ファイルを読み込むときにバイトコード検証が行われます。検証では、各命令でスタックやローカル変数の型が破綻していないか、分岐先で状態が合っているか、初期化前のオブジェクトを不正に使っていないかなどが確認されます。
@@ -21,33 +23,50 @@ JAL では通常、StackMapFrame を直接書く必要はありません。命�
 
 たとえば、同じラベルに合流する 2 つの経路がある場合、合流点のスタックの高さと型が合っていなければなりません。
 
-```jal
-iload_0
-ifeq ElsePath
+<InstructionTrace
+  trace={ `
+  iload_0
+  ↑ condition | 0: condition
+  ifeq ElsePath
+  ↑ - | 0: condition
 
-iconst_1
-goto Join
+  iconst_1
+  ↑ 1 | 0: condition
+  goto Join
+  ↑ 1 | 0: condition
 
-ElsePath:
-iconst_0
+  ElsePath:
+  ↑ - | 0: condition
+  iconst_0
+  ↑ 0 | 0: condition
 
-Join:
-ireturn
-```
+  Join:
+  ↑ result | 0: condition
+  ireturn
+  ↑ - | 0: condition
+`}
+/>
 
 この例では、どちらの経路でも `Join` に来た時点で int が 1 つ積まれているため、`ireturn` できます。
 
 一方、片方の経路だけ値を積むと破綻します。
 
-```jal
-iload_0
-ifeq Join
+<InstructionTrace
+  trace={ `
+  iload_0
+  ↑ condition | 0: condition
+  ifeq Join
+  ↑ - | 0: condition
 
-iconst_1
+  iconst_1
+  ↑ 1 | 0: condition
 
-Join:
-ireturn
-```
+  Join:
+  ↑ missing-or-int | 0: condition
+  ireturn
+  ↑ verification error | 0: condition
+`}
+/>
 
 `ifeq Join` で直接来た場合、`Join` には戻り値がありません。StackMapFrame を自動生成しても、メソッドとして正しくありません。
 
@@ -55,70 +74,113 @@ ireturn
 
 スタックの高さだけでなく、型も合っている必要があります。
 
-```jal
-iload_0
-ifeq StringPath
+<InstructionTrace
+  trace={ `
+  iload_0
+  ↑ condition | 0: condition
+  ifeq StringPath
+  ↑ - | 0: condition
 
-new java/lang/StringBuilder
-dup
-invokespecial java/lang/StringBuilder-><init>()V
-goto Join
+  new java/lang/StringBuilder
+  ↑ builder | 0: condition
+  dup
+  ↑ builder; builder | 0: condition
+  invokespecial java/lang/StringBuilder-><init>()V
+  ↑ builder | 0: condition
+  goto Join
+  ↑ builder | 0: condition
 
-StringPath:
-ldc "text"
+  StringPath:
+  ↑ - | 0: condition
+  ldc "text"
+  ↑ "text" | 0: condition
 
-Join:
-areturn
-```
+  Join:
+  ↑ reference | 0: condition
+  areturn
+  ↑ - | 0: condition
+`}
+/>
 
 どちらも参照型を返していますが、合流点で具体的にどの型として扱えるかは JVM の型推論に関わります。意図が単純なら、合流前に共通の型にそろえる、または合流させずにそれぞれ `areturn` するほうが読みやすい場合があります。
 
-```jal
-iload_0
-ifeq StringPath
+<InstructionTrace
+  trace={ `
+  iload_0
+  ↑ condition | 0: condition
+  ifeq StringPath
+  ↑ - | 0: condition
 
-new java/lang/StringBuilder
-dup
-invokespecial java/lang/StringBuilder-><init>()V
-invokevirtual java/lang/StringBuilder->toString()Ljava/lang/String;
-areturn
+  new java/lang/StringBuilder
+  ↑ builder | 0: condition
+  dup
+  ↑ builder; builder | 0: condition
+  invokespecial java/lang/StringBuilder-><init>()V
+  ↑ builder | 0: condition
+  invokevirtual java/lang/StringBuilder->toString()Ljava/lang/String;
+  ↑ result | 0: condition
+  areturn
+  ↑ - | 0: condition
 
-StringPath:
-ldc "text"
-areturn
-```
+  StringPath:
+  ↑ - | 0: condition
+  ldc "text"
+  ↑ "text" | 0: condition
+  areturn
+  ↑ - | 0: condition
+`}
+/>
 
 ## 例外ハンドラの入口
 
 例外ハンドラに制御が移ると、スタックには捕捉された例外オブジェクトが積まれた状態になります。ハンドラの先頭では、その例外を保存するか、不要なら捨てます。
 
-```jal
-ioHandler:
-  astore_1 [Ljava/io/IOException; -> error]
-  getstatic java/lang/System->out:Ljava/io/PrintStream;
-  ldc "IOException caught"
-  invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
-  goto cleanup
-```
+<InstructionTrace
+  trace={ `
+  ioHandler:
+  ↑ IOException | -
+    astore_1 [Ljava/io/IOException; -> error]
+    ↑ - | error: IOException
+    getstatic java/lang/System->out:Ljava/io/PrintStream;
+    ↑ System.out | error: IOException
+    ldc "IOException caught"
+    ↑ System.out; "IOException caught" | error: IOException
+    invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
+    ↑ - | error: IOException
+    goto cleanup
+    ↑ - | error: IOException
+`}
+/>
 
 例外オブジェクトを使わない場合でも、スタックに残したまま通常の `return` へ進むと整合性が崩れます。
 
-```jal
-generalHandler:
-  pop
-  goto cleanup
-```
+<InstructionTrace
+  trace={ `
+  generalHandler:
+  ↑ Exception | -
+    pop
+    ↑ - | -
+    goto cleanup
+    ↑ - | -
+`}
+/>
 
 ## コンストラクタと未初期化オブジェクト
 
 `new` の直後の参照は、コンストラクタが呼ばれるまで未初期化状態です。通常はすぐ `dup` して `<init>` を呼びます。
 
-```jal
-new java/lang/StringBuilder
-dup
-invokespecial java/lang/StringBuilder-><init>()V
-astore_1
-```
+<InstructionTrace
+  trace={ `
+  new java/lang/StringBuilder
+  ↑ uninitialized builder | -
+  dup
+  ↑ uninitialized builder; uninitialized builder | -
+  invokespecial java/lang/StringBuilder-><init>()V
+  ↑ builder | -
+  astore_1
+  ↑ - | 1: builder
+`}
+/>
 
 未初期化のまま通常のメソッドを呼ぶ、フィールドへ保存する、複雑な分岐で扱う、といった形は避けます。まず初期化を完了させてから、通常の参照として使うのが安全です。
 
@@ -126,10 +188,14 @@ astore_1
 
 JAL のローカル変数情報は可読性とデバッグの助けになります。
 
-```jal
-istore_1 [I -> index]
-astore_2 [Ljava/lang/String; -> name]
-```
+<InstructionTrace
+  trace={ `
+  istore_1 [I -> index]
+  ↑ - | index: int
+  astore_2 [Ljava/lang/String; -> name]
+  ↑ - | index: int; name: String
+`}
+/>
 
 StackMapFrame の自動生成に必要な型推論は命令からも行えますが、名前や型のヒントがあると、コードを読む人にとって意図が明確になります。大きいメソッドでは特に、ローカル変数に名前を付けることを推奨します。
 

@@ -3,6 +3,8 @@ title: 書き方の指針
 description: 読みやすい JAL を書くためのラベル、ローカル変数、メソッド分割、コメントの指針。
 ---
 
+import InstructionTrace from '@site/src/components/InstructionTrace';
+
 # 書き方の指針
 
 JAL は JVM に近い形で書けるため、短いコードでも情報量が多くなります。動くことだけを優先してスロット番号やラベル名を雑にすると、あとからスタックや分岐を追うのが難しくなります。ここでは、読みやすく保守しやすい JAL を書くための実用的な指針をまとめます。
@@ -11,27 +13,43 @@ JAL は JVM に近い形で書けるため、短いコードでも情報量が�
 
 ラベルは制御フローを読むための目印です。`L1`、`L2` のような名前でも動きますが、少し大きいメソッドでは意味が追いにくくなります。
 
-```jal
-LoopStart:
-  iload_1
-  bipush 100
-  if_icmpgt LoopEnd
-  iinc 1 1
-  goto LoopStart
+<InstructionTrace
+  trace={ `
+  LoopStart:
+  ↑ - | 1: i
+    iload_1
+    ↑ i | 1: i
+    bipush 100
+    ↑ i; 100 | 1: i
+    if_icmpgt LoopEnd
+    ↑ - | 1: i
+    iinc 1 1
+    ↑ - | 1: i + 1
+    goto LoopStart
+    ↑ - | 1: i + 1
 
-LoopEnd:
-  return
-```
+  LoopEnd:
+  ↑ - | 1: i
+    return
+    ↑ - | 1: i
+`}
+/>
 
 条件分岐では、否定側や合流点の名前も意識します。
 
-```jal
-ifne NotFizzBuzz
-...
-goto LoopIncrement
+<InstructionTrace
+  trace={ `
+  ifne NotFizzBuzz
+  ↑ - | -
+  ...
+  ↑ - | -
+  goto LoopIncrement
+  ↑ - | -
 
-NotFizzBuzz:
-```
+  NotFizzBuzz:
+  ↑ - | -
+`}
+/>
 
 ラベル名から「何のための場所か」が分かると、分岐命令を読むたびに全体を探し直す必要が減ります。
 
@@ -39,13 +57,19 @@ NotFizzBuzz:
 
 スロット番号だけのコードは JVM には自然ですが、人間には読みづらいことがあります。JAL のローカル変数情報を使って、主要な値に名前を付けます。
 
-```jal
-iconst_0
-istore_1 [I -> index]
+<InstructionTrace
+  trace={ `
+  iconst_0
+  ↑ 0 | -
+  istore_1 [I -> index]
+  ↑ - | index: 0
 
-aload_0
-astore_2 [Ljava/lang/String; -> currentName]
-```
+  aload_0
+  ↑ this | 0: this; index: 0
+  astore_2 [Ljava/lang/String; -> currentName]
+  ↑ - | index: 0; currentName: this
+`}
+/>
 
 名前を付ける対象は、引数、ループカウンタ、配列参照、例外オブジェクト、一時的でも意味を持つ中間結果です。逆に、直後に 1 回だけ使う値にまで名前を付ける必要はありません。
 
@@ -68,45 +92,70 @@ JAL の長いメソッドは、Java の長いメソッドよりも読みにく�
 
 各命令の直訳コメントは、すぐにノイズになります。
 
-```jal
-// count を 1 増やす
-iinc 1 1
-```
+<InstructionTrace
+  trace={ `
+  // count を 1 増やす
+  ↑ - | 1: count
+  iinc 1 1
+  ↑ - | 1: count + 1
+`}
+/>
 
 この程度なら有用です。一方で、次のようなコメントは命令名と同じことを繰り返しているだけです。
 
-```jal
-// iload_1 で 1 番のローカルをロードする
-iload_1
-```
+<InstructionTrace
+  trace={ `
+  // iload_1 で 1 番のローカルをロードする
+  ↑ - | 1: value
+  iload_1
+  ↑ value | 1: value
+`}
+/>
 
 コメントは、なぜその分岐があるのか、なぜ `dup` が必要なのか、どの Java 的な処理に対応するのかを説明するために使うと効果的です。
 
-```jal
-// iastore が配列参照を消費するため、初期化後に保存する参照を残す。
-dup
-iconst_0
-bipush 10
-iastore
-```
+<InstructionTrace
+  trace={ `
+  // iastore が配列参照を消費するため、初期化後に保存する参照を残す。
+  ↑ int[] | -
+  dup
+  ↑ int[]; int[] | -
+  iconst_0
+  ↑ int[]; int[]; 0 | -
+  bipush 10
+  ↑ int[]; int[]; 0; 10 | -
+  iastore
+  ↑ int[] | -
+`}
+/>
 
 ## 命令の短縮形を使い分ける
 
 `iload_0` から `iload_3`、`istore_0` から `istore_3` のような短縮形は読みやすく、JVM 命令としても自然です。
 
-```jal
-iload_0
-iload_1
-iadd
-ireturn
-```
+<InstructionTrace
+  trace={ `
+  iload_0
+  ↑ left | 0: left; 1: right
+  iload_1
+  ↑ left; right | 0: left; 1: right
+  iadd
+  ↑ left + right | 0: left; 1: right
+  ireturn
+  ↑ - | 0: left; 1: right
+`}
+/>
 
 スロット番号が 4 以上になる場合や、名前ヒントを使う場合は通常形を使います。
 
-```jal
-iload 5
-istore 6 [I -> result]
-```
+<InstructionTrace
+  trace={ `
+  iload 5
+  ↑ value | 5: value
+  istore 6 [I -> result]
+  ↑ - | 5: value; result: value
+`}
+/>
 
 同じメソッド内では、短縮形と名前付き参照が混ざりすぎないようにします。引数や主要ローカルに名前を付けるなら、後続でもその名前を使うほうが読みやすくなります。
 
@@ -114,22 +163,35 @@ istore 6 [I -> result]
 
 分岐が合流するラベルでは、スタックの状態をそろえます。複雑な値をスタックに残したまま複数経路を合流させるより、ローカル変数に保存してから合流させるほうが読みやすい場合があります。
 
-```jal
-iload_0
-ifeq ElsePath
+<InstructionTrace
+  trace={ `
+  iload_0
+  ↑ condition | 0: condition
+  ifeq ElsePath
+  ↑ - | 0: condition
 
-iconst_1
-istore_1 [I -> result]
-goto Join
+  iconst_1
+  ↑ 1 | 0: condition
+  istore_1 [I -> result]
+  ↑ - | 0: condition; result: 1
+  goto Join
+  ↑ - | 0: condition; result: 1
 
-ElsePath:
-iconst_0
-istore_1 [I -> result]
+  ElsePath:
+  ↑ - | 0: condition
+  iconst_0
+  ↑ 0 | 0: condition
+  istore_1 [I -> result]
+  ↑ - | 0: condition; result: 0
 
-Join:
-iload result
-ireturn
-```
+  Join:
+  ↑ - | 0: condition; result: int
+  iload result
+  ↑ result | 0: condition; result: int
+  ireturn
+  ↑ - | 0: condition; result: int
+`}
+/>
 
 命令数は少し増えますが、`Join` の時点でスタックが空であることが明確です。
 
@@ -137,11 +199,16 @@ ireturn
 
 学習用の JAL では、「この命令列は Java でいう何に相当するか」を本文で説明すると理解しやすくなります。
 
-```jal
-aload_1
-arraylength
-istore_2 [I -> length]
-```
+<InstructionTrace
+  trace={ `
+  aload_1
+  ↑ array | 1: array
+  arraylength
+  ↑ array.length | 1: array
+  istore_2 [I -> length]
+  ↑ - | 1: array; length: array.length
+`}
+/>
 
 これは Java 風に書けば `int length = array.length;` です。JAL は低レイヤを学ぶための言語でもあるため、Java の見た目と JVM の命令列を対応させる説明が役立ちます。
 
@@ -149,18 +216,28 @@ istore_2 [I -> length]
 
 例外処理では、保護範囲、ハンドラ、後処理のラベル名をそろえます。
 
-```jal
-TryStart:
-  ...
-  goto Finally
+<InstructionTrace
+  trace={ `
+  TryStart:
+  ↑ - | -
+    ...
+    ↑ - | -
+    goto Finally
+    ↑ - | -
 
-IoCatch:
-  astore_1 [Ljava/io/IOException; -> error]
-  goto Finally
+  IoCatch:
+  ↑ IOException | -
+    astore_1 [Ljava/io/IOException; -> error]
+    ↑ - | error: IOException
+    goto Finally
+    ↑ - | error: IOException
 
-Finally:
-  return
-```
+  Finally:
+  ↑ - | -
+    return
+    ↑ - | -
+`}
+/>
 
 例外ハンドラの先頭では、スタック上の例外オブジェクトを `astore` するか `pop` します。これをラベル直後の定型として書くと、スタック状態が読みやすくなります。
 
