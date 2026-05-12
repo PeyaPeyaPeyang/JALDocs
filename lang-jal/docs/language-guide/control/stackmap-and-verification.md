@@ -25,25 +25,25 @@ JAL では通常、StackMapFrame を直接書く必要はありません。命�
 
 <InstructionTrace
   trace={ `
-  iload_0
-  ↑ condition | 0: condition
-  ifeq ElsePath
-  ↑ - | 0: condition
-
-  iconst_1
-  ↑ 1 | 0: condition
-  goto Join
-  ↑ 1 | 0: condition
+    iload_0
+    ↑ condition | 0: condition
+    ifeq ElsePath
+    ↑ - | 0: condition
+  
+    iconst_1
+    ↑ 1 | 0: condition
+    goto Join
+    ↑ 1 | 0: condition
 
   ElsePath:
-  ↑ - | 0: condition
-  iconst_0
-  ↑ 0 | 0: condition
+    ↑ - | 0: condition
+    iconst_0
+    ↑ 0 | 0: condition
 
   Join:
-  ↑ result | 0: condition
-  ireturn
-  ↑ - | 0: condition
+    ↑ result | 0: condition
+    ireturn
+    ↑ - | 0: condition
 `}
 />
 
@@ -53,18 +53,18 @@ JAL では通常、StackMapFrame を直接書く必要はありません。命�
 
 <InstructionTrace
   trace={ `
-  iload_0
-  ↑ condition | 0: condition
-  ifeq Join
-  ↑ - | 0: condition
-
-  iconst_1
-  ↑ 1 | 0: condition
+    iload_0
+    ↑ condition | 0: condition
+    ifeq Join
+    ↑ - | 0: condition
+  
+    iconst_1
+    ↑ 1 | 0: condition
 
   Join:
-  ↑ missing-or-int | 0: condition
-  ireturn
-  ↑ verification error | 0: condition
+    ↑ missing-or-int | 0: condition
+    ireturn
+    ↑ verification error | 0: condition
 `}
 />
 
@@ -77,28 +77,28 @@ JAL では通常、StackMapFrame を直接書く必要はありません。命�
 <InstructionTrace
   trace={ `
   iload_0
-  ↑ condition | 0: condition
-  ifeq StringPath
-  ↑ - | 0: condition
-
-  new java/lang/StringBuilder
-  ↑ builder | 0: condition
-  dup
-  ↑ builder; builder | 0: condition
-  invokespecial java/lang/StringBuilder-><init>()V
-  ↑ builder | 0: condition
-  goto Join
-  ↑ builder | 0: condition
+    ↑ condition | 0: condition
+    ifeq StringPath
+    ↑ - | 0: condition
+  
+    new java/lang/StringBuilder
+    ↑ builder | 0: condition
+    dup
+    ↑ builder; builder | 0: condition
+    invokespecial java/lang/StringBuilder-><init>()V
+    ↑ builder | 0: condition
+    goto Join
+    ↑ builder | 0: condition
 
   StringPath:
-  ↑ - | 0: condition
-  ldc "text"
-  ↑ "text" | 0: condition
+    ↑ - | 0: condition
+    ldc "text"
+    ↑ "text" | 0: condition
 
   Join:
-  ↑ reference | 0: condition
-  areturn
-  ↑ - | 0: condition
+    ↑ reference | 0: condition
+    areturn
+    ↑ - | 0: condition
 `}
 />
 
@@ -107,27 +107,27 @@ JAL では通常、StackMapFrame を直接書く必要はありません。命�
 <InstructionTrace
   trace={ `
   iload_0
-  ↑ condition | 0: condition
-  ifeq StringPath
-  ↑ - | 0: condition
-
-  new java/lang/StringBuilder
-  ↑ builder | 0: condition
-  dup
-  ↑ builder; builder | 0: condition
-  invokespecial java/lang/StringBuilder-><init>()V
-  ↑ builder | 0: condition
-  invokevirtual java/lang/StringBuilder->toString()Ljava/lang/String;
-  ↑ result | 0: condition
-  areturn
-  ↑ - | 0: condition
+    ↑ condition | 0: condition
+    ifeq StringPath
+    ↑ - | 0: condition
+  
+    new java/lang/StringBuilder
+    ↑ builder | 0: condition
+    dup
+    ↑ builder; builder | 0: condition
+    invokespecial java/lang/StringBuilder-><init>()V
+    ↑ builder | 0: condition
+    invokevirtual java/lang/StringBuilder->toString()Ljava/lang/String;
+    ↑ result | 0: condition
+    areturn
+    ↑ - | 0: condition
 
   StringPath:
-  ↑ - | 0: condition
-  ldc "text"
-  ↑ "text" | 0: condition
-  areturn
-  ↑ - | 0: condition
+    ↑ - | 0: condition
+    ldc "text"
+    ↑ "text" | 0: condition
+    areturn
+    ↑ - | 0: condition
 `}
 />
 

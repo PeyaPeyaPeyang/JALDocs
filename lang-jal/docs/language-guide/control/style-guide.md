@@ -165,31 +165,31 @@ JAL の長いメソッドは、Java の長いメソッドよりも読みにく�
 
 <InstructionTrace
   trace={ `
-  iload_0
-  ↑ condition | 0: condition
-  ifeq ElsePath
-  ↑ - | 0: condition
-
-  iconst_1
-  ↑ 1 | 0: condition
-  istore_1 [I -> result]
-  ↑ - | 0: condition; result: 1
-  goto Join
-  ↑ - | 0: condition; result: 1
+    iload_0
+    ↑ condition | 0: condition
+    ifeq ElsePath
+    ↑ - | 0: condition
+  
+    iconst_1
+    ↑ 1 | 0: condition
+    istore_1 [I -> result]
+    ↑ - | 0: condition; result: 1
+    goto Join
+    ↑ - | 0: condition; result: 1
 
   ElsePath:
-  ↑ - | 0: condition
-  iconst_0
-  ↑ 0 | 0: condition
-  istore_1 [I -> result]
-  ↑ - | 0: condition; result: 0
+    ↑ - | 0: condition
+    iconst_0
+    ↑ 0 | 0: condition
+    istore_1 [I -> result]
+    ↑ - | 0: condition; result: 0
 
-  Join:
-  ↑ - | 0: condition; result: int
-  iload result
-  ↑ result | 0: condition; result: int
-  ireturn
-  ↑ - | 0: condition; result: int
+    Join:
+    ↑ - | 0: condition; result: int
+    iload result
+    ↑ result | 0: condition; result: int
+    ireturn
+    ↑ - | 0: condition; result: int
 `}
 />
 
