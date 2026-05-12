@@ -15,7 +15,7 @@
 
 .line {
   display: grid;
-  grid-template-columns: 3rem minmax(18rem, 1fr);
+  grid-template-columns: 3rem minmax(0, 1fr);
   min-height: 1.65rem;
   outline: none;
   position: relative;
@@ -34,9 +34,16 @@
 }
 
 .instruction {
-  display: inline-flex;
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding-right: 1.25rem;
-  white-space: pre;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.instructionContent {
+  min-width: 0;
 }
 
 .instruction :global(.token.comment) {
@@ -84,10 +91,6 @@
 .instruction :global(.token.operator),
 .instruction :global(.token.punctuation) {
   color: #586069;
-}
-
-.indent {
-  flex: 0 0 auto;
 }
 
 .tooltip {
@@ -245,7 +248,7 @@
 
 @media (max-width: 760px) {
   .line {
-    grid-template-columns: 2.5rem minmax(14rem, 1fr);
+    grid-template-columns: 2.5rem minmax(0, 1fr);
   }
 
   .tooltip {

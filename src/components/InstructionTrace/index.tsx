@@ -212,13 +212,8 @@ function InstructionText({code}: {code: string}): ReactNode {
   const tokens = highlightJalLine(text);
 
   return (
-    <span className={styles.instruction}>
-      <span
-        aria-hidden="true"
-        className={styles.indent}
-        style={{width: `${indentWidth}ch`}}
-      />
-      {tokens.map(renderToken)}
+    <span className={styles.instruction} style={{paddingInlineStart: `${indentWidth}ch`}}>
+      <span className={styles.instructionContent}>{tokens.map(renderToken)}</span>
     </span>
   );
 }
