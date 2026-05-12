@@ -4,31 +4,46 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
+import InstructionTrace from '@site/src/components/InstructionTrace';
 
 import styles from './index.module.css';
 
-const helloWorld = `public class HelloWorld (
-  major_version=55,
-  minor_version=0) {
+const twiceTrace = `
+public static twice(I)I {
+↑ - | 0: value
+  iload_0
+  ↑ value | 0: value
+  iconst_2
+  ↑ value; 2 | 0: value
+  imul
+  ↑ value * 2 | 0: value
+  ireturn
+  ↑ - | 0: value
+}
+↑ - | 0: value
+`;
 
-  public static main([Ljava/lang/String;)V {
-    getstatic java/lang/System->out:Ljava/io/PrintStream;
-    ldc "Hello, World!"
-    invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
-    return
-  }
-}`;
-
-const stackPreview = `.L_check:
+const branchTrace = `
+.L_check:
+↑ - | 0: count; 1: writer
   iload count
+  ↑ count | 0: count; 1: writer
   ifle .L_done
+  ↑ - | 0: count; 1: writer
   aload writer
+  ↑ writer | 0: count; 1: writer
   ldc "verified"
+  ↑ writer; "verified" | 0: count; 1: writer
   invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
+  ↑ - | 0: count; 1: writer
   goto .L_check
+  ↑ - | 0: count; 1: writer
 
 .L_done:
-  return`;
+↑ - | 0: count; 1: writer
+  return
+  ↑ - | 0: count; 1: writer
+`;
 
 const featureItems = [
   {
@@ -122,30 +137,6 @@ function HomepageHeader(): ReactNode {
   );
 }
 
-function CodePanel({
-  title,
-  meta,
-  code,
-  className,
-}: {
-  title: string;
-  meta: string;
-  code: string;
-  className?: string;
-}): ReactNode {
-  return (
-    <div className={className ? `${styles.codePanel} ${className}` : styles.codePanel}>
-      <div className={styles.codeHeader}>
-        <span>{title}</span>
-        <span>{meta}</span>
-      </div>
-      <pre>
-        <code>{code}</code>
-      </pre>
-    </div>
-  );
-}
-
 function ModernIntro(): ReactNode {
   const logoUrl = useBaseUrl('/img/jal-logo.svg');
 
@@ -185,7 +176,7 @@ function ModernIntro(): ReactNode {
             <span />
             <span />
           </div>
-          <CodePanel title="HelloWorld.jal" meta="Java 1.0 - 27 class files" code={helloWorld} />
+          <InstructionTrace trace={twiceTrace} />
         </section>
       </div>
     </section>
@@ -227,12 +218,9 @@ function SyntaxPreview(): ReactNode {
             命令リファレンスへ
           </Link>
         </div>
-        <CodePanel
-          className={styles.inlineCode}
-          title="control-flow.jal"
-          meta="labels + invocation"
-          code={stackPreview}
-        />
+        <div className={styles.inlineCode}>
+          <InstructionTrace trace={branchTrace} />
+        </div>
       </div>
     </section>
   );
