@@ -1,0 +1,47 @@
+---
+title: 言語ガイド
+description: JAL の言語ガイド配下を読むための入口。
+---
+
+import DocCard from "@theme/DocCard";
+
+# 言語ガイド
+
+言語ガイドは、JAL の構文を「ファイル構造」「型とメンバー」「スタックと命令」「制御フローと検証」に分けて説明します。JAL は JVM クラスファイルに近い言語なので、Java ソースの文法だけでなく、JVM が実行時に見る構造も一緒に理解すると読みやすくなります。
+
+## おすすめの読み順
+
+1. [基礎](./basics/README.mdx) で、構文、クラスファイル、型記述子、メンバー定義を確認する
+2. [実行モデル](./runtime/README.mdx) で、スタック、ローカル変数、命令、呼び出しを追う
+3. [制御と検証](./control/README.mdx) で、分岐、例外、StackMapFrame、書き方の指針を押さえる
+
+## 章の構成
+
+<DocCard
+  item={{
+    type: "link",
+    label: "基礎",
+    href: "/docs/language-guide/basics",
+    description: "JAL ファイルの形、JVM クラスファイル、型記述子、クラスとメンバーを扱います。",
+  }}
+/>
+
+<DocCard
+  item={{
+    type: "link",
+    label: "実行モデル",
+    href: "/docs/language-guide/runtime",
+    description: "オペランドスタック、ローカル変数、命令、オブジェクト、配列、メソッド呼び出しを扱います。",
+  }}
+/>
+
+<DocCard
+  item={{
+    type: "link",
+    label: "制御と検証",
+    href: "/docs/language-guide/control",
+    description: "ラベル、条件分岐、switch、例外処理、StackMapFrame、読みやすい書き方を扱います。",
+  }}
+/>
+
+特定の構文だけを確認したい場合は、左のサイドバーから該当ページへ直接移動してください。

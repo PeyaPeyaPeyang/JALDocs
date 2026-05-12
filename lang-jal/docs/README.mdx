@@ -1,0 +1,62 @@
+---
+title: ドキュメント
+description: JAL ドキュメント全体の入口。
+slug: /
+---
+
+import DocCard from "@theme/DocCard";
+
+# ドキュメント
+
+JAL（Java Assembly Language）のドキュメントは、言語仕様を読むための「言語ガイド」と、コンパイラや IDE 連携を扱う「使い方」に分かれています。
+
+## 読み始める場所
+
+<DocCard
+  item={{
+    type: "link",
+    label: "はじめに",
+    href: "/docs/intro",
+    description: "JAL の概要と最小の HelloWorld を確認します。",
+  }}
+/>
+
+<DocCard
+  item={{
+    type: "link",
+    label: "言語ガイド",
+    href: "/docs/language-guide",
+    description: "JAL の構文、型、命令、制御フローを順番に読みます。",
+  }}
+/>
+
+<DocCard
+  item={{
+    type: "link",
+    label: "使い方",
+    href: "/docs/usage",
+    description: "CLI、Gradle、IntelliJ 連携、サンプルを確認します。",
+  }}
+/>
+
+初めて JAL を触る場合は、まず [はじめに](./intro.mdx) で最小のプログラムを確認し、その後 [言語ガイド](./language-guide/README.mdx) に進むのがおすすめです。
+
+## ドキュメント構造
+
+```text
+docs/
+  README.mdx
+  intro.mdx
+  language-guide/
+    README.mdx
+    basics/
+      README.mdx
+    runtime/
+      README.mdx
+    control/
+      README.mdx
+  usage/
+    README.mdx
+```
+
+各階層の `README.mdx` は、その階層に含まれるページの案内役です。細かい項目へ直接入る前に、まず階層の README を見ると読み進めやすくなります。

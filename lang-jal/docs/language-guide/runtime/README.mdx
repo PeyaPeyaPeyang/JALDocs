@@ -1,0 +1,50 @@
+---
+title: 実行モデル
+description: スタック、ローカル変数、命令、オブジェクト、配列、メソッド呼び出しの入口。
+---
+
+import DocCard from "@theme/DocCard";
+
+# 実行モデル
+
+この階層では、JAL の命令列が JVM 上でどう動くかを扱います。JVM はスタックマシンなので、値がどの順番で積まれ、どの命令で消費されるかを追うことが重要です。
+
+## ページ一覧
+
+<DocCard
+  item={{
+    type: "link",
+    label: "スタックとローカル変数",
+    href: "/docs/language-guide/runtime/stack-and-locals",
+    description: "オペランドスタック、ローカル変数スロット、名前ヒント。",
+  }}
+/>
+
+<DocCard
+  item={{
+    type: "link",
+    label: "命令",
+    href: "/docs/language-guide/runtime/instructions",
+    description: "定数、ロード、ストア、算術、配列、フィールド、戻り命令。",
+  }}
+/>
+
+<DocCard
+  item={{
+    type: "link",
+    label: "オブジェクトと配列",
+    href: "/docs/language-guide/runtime/objects-and-arrays",
+    description: "`new`、`dup`、コンストラクタ、配列作成、配列アクセス。",
+  }}
+/>
+
+<DocCard
+  item={{
+    type: "link",
+    label: "メソッド呼び出し",
+    href: "/docs/language-guide/runtime/method-invocation",
+    description: "`invokevirtual`、`invokespecial`、`invokestatic`、`invokeinterface`。",
+  }}
+/>
+
+命令を読むときは、各行の後でスタックに何が残っているかを確認すると理解しやすくなります。
