@@ -1,13 +1,13 @@
 ---
 title: 制御フロー
-description: ラベル、条件分岐、ループ、switch の書き方。
+description: ラベル，条件分岐，ループ，switch の書き方。
 ---
 
 import InstructionTrace from '@site/src/components/InstructionTrace';
 
 # 制御フロー
 
-JAL の制御フローはラベルとジャンプ命令で表現します。Java の `if`、`while`、`switch` に相当する構造も、最終的には JVM 命令として書きます。
+JAL の制御フローはラベルとジャンプ命令で表現します。Java の `if`，`while`，`switch` に相当する構造も，最終的には JVM 命令として書きます。
 
 ## ラベル
 
@@ -110,11 +110,11 @@ JAL の制御フローはラベルとジャンプ命令で表現します。Java
 `}
 />
 
-`irem` の結果が 0 でなければ `NotFizzBuzz` へ進み、0 なら文字列を出力してループ末尾へジャンプします。
+`irem` の結果が 0 でなければ `NotFizzBuzz` へ進み，0 なら文字列を出力してループ末尾へジャンプします。
 
 ## switch
 
-連続した整数ケースには `tableswitch`、疎な整数ケースには `lookupswitch` を使います。
+連続した整数ケースには `tableswitch`，疎な整数ケースには `lookupswitch` を使います。
 
 <InstructionTrace
   trace={ `
@@ -138,4 +138,4 @@ JAL の制御フローはラベルとジャンプ命令で表現します。Java
 `}
 />
 
-各ケース末尾では、必要に応じて `goto EndSwitch` を置いて明示的に合流させます。
+各ケース末尾では，必要に応じて `goto EndSwitch` を置いて明示的に合流させます。

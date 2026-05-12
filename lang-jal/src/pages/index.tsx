@@ -48,7 +48,7 @@ const branchTrace = `
 const featureItems = [
   {
     title: '機械語入門の足場になる',
-    body: 'JVM は x86 などの実機向けアーキテクチャより単純なモデルで、スタック、ローカル変数、分岐、呼び出しを追いやすい仮想機械です。JAL はその構造を直接書いて観察できます。',
+    body: 'JVM は x86 などの実機向けアーキテクチャより単純なモデルで，スタック，ローカル変数，分岐，呼び出しを追いやすい仮想機械です。JAL はその構造を直接書いて観察できます。',
   },
   {
     title: 'StackMapFrame を自動生成',
@@ -56,12 +56,12 @@ const featureItems = [
   },
   {
     title: 'IDE と一緒に使える',
-    body: 'Javasm IntelliJ Plugin で補完、ホバー説明、ラベル移動、JVM デバッガ連携を利用できます。.jal ファイルを普段の Java 開発に近い感覚で扱えます。',
+    body: 'Javasm IntelliJ Plugin で補完，ホバー説明，ラベル移動，JVM デバッガ連携を利用できます。.jal ファイルを普段の Java 開発に近い感覚で扱えます。',
   },
 ];
 
 const workflowItems = [
-  ['Write', '.jal で命令、ラベル、型記述子を明示'],
+  ['Write', '.jal で命令，ラベル，型記述子を明示'],
   ['Compile', 'jalc が class または jar を生成'],
   ['Inspect', 'IDE と JVM デバッガで動作を確認'],
 ];
@@ -148,11 +148,11 @@ function ModernIntro(): ReactNode {
             <img className={styles.modernLogo} src={logoUrl} alt="" />
             <span>Java Assembly Language</span>
           </div>
-          <h2>機械語の入口に、JVM バイトコードを。</h2>
+          <h2>機械語の入口に，JVM バイトコードを。</h2>
           <p>
-            JAL は JVM の命令セットに近いまま、ラベル、名前付きローカル変数、読みやすいメンバー参照、
-            自動 StackMapFrame 生成を備えたテキストアセンブリ言語です。x86 などの実機向けアセンブリへ進む前に、
-            より単純な JVM のモデルで命令、スタック、分岐、呼び出しを学べます。
+            JAL は JVM の命令セットに近いまま，ラベル，名前付きローカル変数，読みやすいメンバー参照，
+            自動 StackMapFrame 生成を備えたテキストアセンブリ言語です。x86 などの実機向けアセンブリへ進む前に，
+            より単純な JVM のモデルで命令，スタック，分岐，呼び出しを学べます。
           </p>
           <dl className={styles.metrics}>
             <div>
@@ -209,10 +209,10 @@ function SyntaxPreview(): ReactNode {
       <div className={styles.split}>
         <div>
           <span className={styles.eyebrow}>Syntax</span>
-          <h2>命令は JVM に近く、参照は読みやすく。</h2>
+          <h2>命令は JVM に近く，参照は読みやすく。</h2>
           <p>
             フィールドとメソッドの参照は ClassName-&gt;member の形で分離されます。
-            JVM 記述子はそのまま使えるため、Java の型とバイトコードの対応を追いやすくなります。
+            JVM 記述子はそのまま使えるため，Java の型とバイトコードの対応を追いやすくなります。
           </p>
           <Link className={styles.textLink} to="/docs/language-guide/runtime/instructions">
             命令リファレンスへ
@@ -231,7 +231,7 @@ function Workflow(): ReactNode {
     <section className={styles.workflow} aria-labelledby="workflow-heading">
       <div className={styles.sectionHeader}>
         <span className={styles.eyebrow}>Workflow</span>
-        <h2 id="workflow-heading">小さく書いて、すぐ class に落とす。</h2>
+        <h2 id="workflow-heading">小さく書いて，すぐ class に落とす。</h2>
       </div>
       <div className={styles.timeline}>
         {workflowItems.map(([label, description]) => (
@@ -250,10 +250,10 @@ function ToolingBand(): ReactNode {
     <section className={styles.tooling}>
       <div>
         <span className={styles.eyebrow}>Tooling</span>
-        <h2>CLI、Gradle、IntelliJ から利用</h2>
+        <h2>CLI，Gradle，IntelliJ から利用</h2>
         <p>
           jalc で .jal を class や jar にコンパイルできます。IntelliJ IDEA では Javasm がエディタと
-          デバッグ体験を補完し、Gradle プラグインでビルドへ組み込めます。
+          デバッグ体験を補完し，Gradle プラグインでビルドへ組み込めます。
         </p>
       </div>
       <div className={styles.toolLinks}>

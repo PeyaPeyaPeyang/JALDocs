@@ -1,13 +1,13 @@
 ---
 title: サンプル
-description: HelloWorld、FizzBuzz、配列、switch の JAL サンプル。
+description: HelloWorld，FizzBuzz，配列，switch の JAL サンプル。
 ---
 
 import InstructionTrace from '@site/src/components/InstructionTrace';
 
 # サンプル
 
-このリポジトリの `examples/` には、JAL の基本パターンを確認できるサンプルがあります。
+このリポジトリの `examples/` には，JAL の基本パターンを確認できるサンプルがあります。
 
 ## HelloWorld
 
@@ -75,7 +75,7 @@ import InstructionTrace from '@site/src/components/InstructionTrace';
 `}
 />
 
-FizzBuzz では、`irem`、条件分岐、ラベル、`goto` によるループをまとめて確認できます。
+FizzBuzz では，`irem`，条件分岐，ラベル，`goto` によるループをまとめて確認できます。
 
 ## 配列
 
@@ -98,11 +98,11 @@ FizzBuzz では、`irem`、条件分岐、ラベル、`goto` によるループ�
 `}
 />
 
-配列サンプルでは、配列参照を `dup` で残しながら `iastore` で要素を書き込みます。
+配列サンプルでは，配列参照を `dup` で残しながら `iastore` で要素を書き込みます。
 
 ## switch
 
-`SwitchExample.jal` では `tableswitch` の使い方を確認できます。連続した整数ケースでは `tableswitch`、値が飛び飛びの場合は `lookupswitch` を選びます。
+`SwitchExample.jal` では `tableswitch` の使い方を確認できます。連続した整数ケースでは `tableswitch`，値が飛び飛びの場合は `lookupswitch` を選びます。
 
 ## 実行
 
