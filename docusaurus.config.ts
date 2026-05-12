@@ -231,7 +231,11 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} PeyaPeyaPeyang.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Peyang.
+      LangJAL is made with ❤ by Peyang and LangJAL contributors.
+      JAL documentation for the Sun Java platform and modern JVM bytecode.
+      Java™ およびすべての Java™ 関連の商標は，米国 Sun Microsystems, Inc. の米国およびその他の国における商標または登録商標です。
+      `
     },
     prism: {
       theme: prismThemes.github,
