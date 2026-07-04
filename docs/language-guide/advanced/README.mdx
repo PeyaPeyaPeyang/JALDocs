@@ -1,0 +1,23 @@
+import DocCard from "@theme/DocCard";
+
+# 応用
+
+マクロなど，JAL をより効率よく書くための補助機能の入口。
+
+---
+
+この階層では，JAL の基本構文や JVM の実行モデルを押さえた後に使うと便利な機能を扱います。命令列そのものの意味は変えず，繰り返しを減らしたり，長い記述を読みやすく保ったりするための書き方をまとめます。
+
+## ページ一覧
+
+<DocCard
+  item={{
+    type: "link",
+    label: "マクロ",
+    docId: "language-guide/advanced/macros",
+    href: "/docs/language-guide/advanced/macros",
+    description: "`#define` による置換，関数形式マクロ，複数行マクロ，展開ルール。",
+  }}
+/>
+
+マクロはコンパイル前の文字列置換です。命令列のスタック状態や JVM 検証の条件は，展開後の JAL に対して通常どおり確認してください。

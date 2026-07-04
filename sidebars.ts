@@ -69,6 +69,18 @@ const sidebars: SidebarsConfig = {
             'language-guide/control/style-guide',
           ],
         },
+        {
+          type: 'category',
+          label: '応用',
+          link: {
+            type: 'doc',
+            id: 'language-guide/advanced/README',
+          },
+          items: [
+            'language-guide/advanced/README',
+            'language-guide/advanced/macros',
+          ],
+        },
       ],
     },
   ],
