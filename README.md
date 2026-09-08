@@ -1,41 +1,33 @@
-# Website
+# LangJAL ドキュメント
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+[公開サイト](https://jal.yamad.jp/)のソースです。JAL の構文と JVM 命令を説明します。ブラウザで編集・実行する環境は，別プロジェクトの [Jaspera](https://jal.yamad.jp/jaspera/) です。
 
-## Installation
+## 開発
 
-```bash
-yarn
-```
-
-## Local Development
+Node.js 20 以降と pnpm を使います。
 
 ```bash
-yarn start
+pnpm install --frozen-lockfile
+pnpm start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+記事は `docs/`，トップページは `src/pages/index.tsx`，ナビゲーションは `docusaurus.config.ts` と `sidebars.ts` にあります。
 
-## Build
+## 検証
 
 ```bash
-yarn build
+pnpm run typecheck
+pnpm run build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+ビルド時に内部リンクを検査します。出力先は `build/` です。`pnpm run serve` で生成したサイトを確認できます。
 
-## Deployment
-
-Using SSH:
+掲載したクラス・メソッドの例は，現行 LangJAL の CLI クラスパスを `LANGJAL_CLASSPATH` に設定して検証できます。必要なら `JAVA_HOME` も指定します。
 
 ```bash
-USE_SSH=true yarn deploy
+node scripts/check-examples.mjs
 ```
 
-Not using SSH:
+この検査は `jal` コードブロックから完全なクラスとメソッドを抽出し，コンパイル後に JVM の検証を行います。メソッドだけの例は検証用クラスで囲みます。命令だけの断片，文法の模式図，既知の実装制約を示す `text` ブロックは対象外です。検査は出力値の正しさや全ブラウザでの動作を保証しません。
 
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+公開サイトのルートはこのドキュメント，`/jaspera/` は Jaspera の配信先です。URL の役割を変える際は両プロジェクトのリンクを確認してください。

@@ -1,53 +1,15 @@
-import DocCard from "@theme/DocCard";
+---
+title: 制御と検証
+description: 分岐と例外処理の書き方，検証に必要な状態。
+---
 
 # 制御と検証
 
-分岐，例外処理，StackMapFrame，読みやすい JAL の書き方の入口。
+分岐や例外処理があるメソッドには，複数の実行経路があります。同じ位置へ入る経路で，スタックとローカル変数の状態が両立するように書きます。
 
----
+- [制御フロー](./control-flow.md)：ラベル，条件分岐，ループ，switch
+- [例外処理](./exceptions.md)：保護範囲とハンドラの指定
+- [StackMapFrame と検証](./stackmap-and-verification.md)：合流点と未初期化参照の制約
+- [書き方の指針](./style-guide.md)：インデント，名前，コメントの付け方
 
-この階層では，ラベルや分岐で制御フローを作る方法と，JVM の検証を通る命令列を書くための考え方を扱います。JAL は StackMapFrame を自動生成しますが，スタックの高さや型が各経路で整合している必要はあります。
-
-## ページ一覧
-
-<DocCard
-  item={{
-    type: "link",
-    label: "制御フロー",
-    docId: "language-guide/control/control-flow",
-    href: "/docs/language-guide/control/control-flow",
-    description: "ラベル，条件分岐，ループ，`tableswitch`，`lookupswitch`。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "例外処理",
-    docId: "language-guide/control/exceptions",
-    href: "/docs/language-guide/control/exceptions",
-    description: "例外テーブル，catch ハンドラ，finally 相当の合流。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "StackMapFrame と検証",
-    docId: "language-guide/control/stackmap-and-verification",
-    href: "/docs/language-guide/control/stackmap-and-verification",
-    description: "JVM 検証，分岐合流，例外ハンドラ，未初期化オブジェクト。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "書き方の指針",
-    docId: "language-guide/control/style-guide",
-    href: "/docs/language-guide/control/style-guide",
-    description: "ラベル名，ローカル変数名，メソッド分割，コメントの方針。",
-  }}
-/>
-
-分岐や例外処理で迷ったときは，先に合流点のスタック状態を決めてから命令列を書くと整理しやすくなります。
+「書き方の指針」は読みやすさのための提案です。JVM が要求する制約とは分けて説明しています。

@@ -1,53 +1,14 @@
-import DocCard from "@theme/DocCard";
+---
+title: 基礎
+description: JAL のファイル構造，型，メンバー宣言を読む。
+---
 
 # 基礎
 
-JAL の基本構文，JVM クラスファイル，型記述子，クラスとメンバーの入口。
+JAL では，命令列をクラスとメソッドの中に書きます。まず [構文ガイド](./syntax.md) でソース全体の形を確認してください。
 
----
+- [クラスファイルの見方](./class-file-model.md)：コンパイルの出力と定数プール
+- [型記述子](./descriptors.md)：フィールド・引数・戻り値の型
+- [クラス，フィールド，メソッド](./classes-and-members.md)：宣言と初期化処理
 
-この階層では，JAL ファイルを読むための前提を扱います。命令列に入る前に，クラスファイル全体の構造，型記述子，フィールド，メソッドの書き方を押さえます。
-
-## ページ一覧
-
-<DocCard
-  item={{
-    type: "link",
-    label: "構文ガイド",
-    docId: "language-guide/basics/syntax",
-    href: "/docs/language-guide/basics/syntax",
-    description: "JAL ファイルの基本構造，クラス，フィールド，メソッド，メンバー参照。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "JVM クラスファイルの見方",
-    docId: "language-guide/basics/class-file-model",
-    href: "/docs/language-guide/basics/class-file-model",
-    description: "JVM クラスファイル，スタックマシン，定数プールの考え方。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "型記述子とメソッド記述子",
-    docId: "language-guide/basics/descriptors",
-    href: "/docs/language-guide/basics/descriptors",
-    description: "`I`，`Ljava/lang/String;`，`([Ljava/lang/String;)V` などの読み方。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "クラス，フィールド，メソッド",
-    docId: "language-guide/basics/classes-and-members",
-    href: "/docs/language-guide/basics/classes-and-members",
-    description: "コンストラクタ，static 初期化子，フィールドアクセスの書き方。",
-  }}
-/>
-
-まずは [構文ガイド](./syntax.md) から読むと，以降のページで出てくる記法を追いやすくなります。
+メソッドの中で値をどう扱うかは [スタックとローカル変数](../runtime/stack-and-locals.md) へ続きます。

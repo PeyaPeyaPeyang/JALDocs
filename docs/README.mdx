@@ -1,55 +1,25 @@
 ---
-title: ドキュメント
-description: JAL ドキュメント全体の入口。
+title: LangJAL ドキュメント
+description: JAL の書き方と JVM の動作を調べるためのドキュメント。
 slug: /
 ---
 
-import DocCard from "@theme/DocCard";
+# LangJAL ドキュメント
 
-# ドキュメント
+LangJAL は，JVM バイトコードをテキストで記述する言語 JAL と，そのコンパイラ・逆アセンブラを提供しています。このサイトでは，JAL の構文と，命令を実行したときの JVM の動作を説明します。
 
-JAL（JVM Assembly Language）のドキュメントは，概要をつかむための「はじめに」，実際に手を動かすための「チュートリアルと使い方」，仕様を深く読むための「言語ガイド」に分かれています。
+初めて使う方は [はじめに](./intro.mdx) と [チュートリアル](./usage/tutorial.mdx) を順に読んでください。ブラウザでコードを書いて試すには，サンドボックス実行環境 [Jaspera を開く](https://jal.yamad.jp/jaspera/) と始められます。JDK のインストールは不要です。
 
-## 読み始める場所
+## 書き方を調べる
 
-<DocCard
-  item={{
-    type: "link",
-    label: "はじめに",
-    docId: "intro",
-    href: "/docs/intro",
-    description: "JAL の概要と最小の HelloWorld を確認します。",
-  }}
-/>
+- [構文ガイド](./language-guide/basics/syntax.md)：クラス，フィールド，メソッドの記法
+- [型記述子](./language-guide/basics/descriptors.md)：`I` や `Ljava/lang/String;` の読み方
+- [スタックとローカル変数](./language-guide/runtime/stack-and-locals.md)：値の受け渡しとスロット番号
+- [命令の分類](./language-guide/runtime/instructions.md)：目的から命令を探す
+- [制御フロー](./language-guide/control/control-flow.md)と[例外処理](./language-guide/control/exceptions.md)：分岐先と保護範囲の指定
 
-<DocCard
-  item={{
-    type: "link",
-    label: "チュートリアル",
-    docId: "usage/tutorial",
-    href: "/docs/usage/tutorial",
-    description: "IntelliJ IDEA と Javasm で HelloWorld を作成して実行します。",
-  }}
-/>
+## 実行して確かめる
 
-<DocCard
-  item={{
-    type: "link",
-    label: "使い方",
-    docId: "usage/README",
-    href: "/docs/usage",
-    description: "CLI，Gradle，IntelliJ 連携，サンプルを確認します。",
-  }}
-/>
+[Jaspera の使い方](./usage/jaspera.md)では，実行，ブレークポイント，ステップ実行，フレーム表示を説明します。ドキュメントで命令の意味を調べ，Jaspera で値や分岐を変えて確かめてください。
 
-<DocCard
-  item={{
-    type: "link",
-    label: "言語ガイド",
-    docId: "language-guide/README",
-    href: "/docs/language-guide",
-    description: "JAL の構文，型，命令，制御フローを順番に読みます。",
-  }}
-/>
-
-初めて JAL を触る場合は，まず [はじめに](./intro.mdx) で最小のプログラムを確認し，次に [チュートリアル](./usage/tutorial.mdx) を読み，その後 [使い方](./usage/README.mdx) と [言語ガイド](./language-guide/README.mdx) へ進んでください。
+手元の JVM で実行する場合は [CLI・IDE・Gradle](./usage/tooling.md) を参照してください。文法や説明に問題を見つけた場合は，[LangJAL の Issues](https://github.com/JVMLand/LangJAL/issues) に該当ページとコード例を添えて報告できます。

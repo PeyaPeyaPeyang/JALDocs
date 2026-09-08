@@ -1,43 +1,16 @@
-import DocCard from "@theme/DocCard";
+---
+title: 使い方
+description: Jaspera とローカル環境で JAL を実行する。
+---
 
 # 使い方
 
-JAL のコンパイル，IDE 連携，サンプルの入口。
+ブラウザで始める場合は [チュートリアル](./tutorial.mdx) を読んでください。文字列の出力から始め，命令を一つずつ実行します。
 
----
+| ページ | 内容 |
+| --- | --- |
+| [Jaspera で試す](./jaspera.md) | 実行・停止，フレームの確認，ファイルの読み書き |
+| [CLI・IDE・Gradle](./tooling.md) | 手元の JVM や Java プロジェクトで使うための設定 |
+| [サンプル](./examples.md) | 出力，ループ，配列，switch を試すコード |
 
-この階層では，JAL を実際にコンパイルして動かすためのツールとサンプルを扱います。言語仕様を確認したい場合は [言語ガイド](../language-guide/README.mdx) を参照してください。
-
-## ページ一覧
-
-<DocCard
-  item={{
-    type: "link",
-    label: "チュートリアル",
-    docId: "usage/tutorial",
-    href: "/docs/usage/tutorial",
-    description: "IntelliJ IDEA と Javasm で HelloWorld を作成して実行する。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "ツール",
-    docId: "usage/tooling",
-    href: "/docs/usage/tooling",
-    description: "JAL CLI Compiler，Gradle Plugin，Javasm IntelliJ Plugin。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "サンプル",
-    docId: "usage/examples",
-    href: "/docs/usage/examples",
-    description: "HelloWorld，FizzBuzz，配列，switch のサンプル。",
-  }}
-/>
-
-まずは [チュートリアル](./tutorial.mdx) で HelloWorld を動かし，続けて [ツール](./tooling.md) でコンパイル方法を確認してください。実例を増やしたい場合は [サンプル](./examples.md) の `.jal` ファイルをビルドして動作を見てください。
+構文を調べる場合は [言語ガイド](../language-guide/README.mdx) を参照してください。

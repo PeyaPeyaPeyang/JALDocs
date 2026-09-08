@@ -1,60 +1,19 @@
-import DocCard from "@theme/DocCard";
+---
+title: 言語ガイド
+description: JAL の構文と JVM の実行モデルを調べる。
+---
 
 # 言語ガイド
 
-JAL の言語ガイド配下を読むための入口。
+JAL の記法と，生成したバイトコードの動作を説明します。初めて読む場合は「基礎」から順に進めてください。書きたい処理が決まっている場合は，各章から必要なページを選べます。
 
----
+| 章 | 調べられること |
+| --- | --- |
+| [基礎](./basics/README.mdx) | クラスファイル，型記述子，クラス・メンバーの宣言 |
+| [実行モデル](./runtime/README.mdx) | スタック，ローカル変数，命令，オブジェクトと配列 |
+| [制御と検証](./control/README.mdx) | 分岐，例外ハンドラ，スタックマップの条件 |
+| [マクロ](./advanced/macros.md) | コンパイル前のソースの置換 |
 
-言語ガイドは，JAL の構文を「ファイル構造」「型とメンバー」「スタックと命令」「制御フローと検証」「応用」に分けて説明します。JAL は JVM クラスファイルに近い言語なので，Java ソースの文法だけでなく，JVM が実行時に見る構造も一緒に理解すると読みやすくなります。
+[Jaspera](https://jal.yamad.jp/jaspera/) では，例の命令を変更して動作を確かめられます。メソッドだけの例はクラスの中へ，命令列だけの例は必要な引数と戻り型を持つメソッドへ置いてください。[メソッド例の実行方法](../usage/examples.md#メソッドだけの例を実行する)に，`main` から呼び出す手順があります。
 
-## おすすめの読み順
-
-1. [基礎](./basics/README.mdx) で，構文，クラスファイル，型記述子，メンバー定義を確認する
-2. [実行モデル](./runtime/README.mdx) で，スタック，ローカル変数，命令，呼び出しを追う
-3. [制御と検証](./control/README.mdx) で，分岐，例外，StackMapFrame，書き方の指針を押さえる
-4. [応用](./advanced/README.mdx) で，マクロなどの補助機能を確認する
-
-## 章の構成
-
-<DocCard
-  item={{
-    type: "link",
-    label: "基礎",
-    docId: "language-guide/basics/README",
-    href: "/docs/language-guide/basics",
-    description: "JAL ファイルの形，JVM クラスファイル，型記述子，クラスとメンバーを扱います。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "実行モデル",
-    docId: "language-guide/runtime/README",
-    href: "/docs/language-guide/runtime",
-    description: "オペランドスタック，ローカル変数，命令，オブジェクト，配列，メソッド呼び出しを扱います。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "制御と検証",
-    docId: "language-guide/control/README",
-    href: "/docs/language-guide/control",
-    description: "ラベル，条件分岐，switch，例外処理，StackMapFrame，読みやすい書き方を扱います。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "応用",
-    docId: "language-guide/advanced/README",
-    href: "/docs/language-guide/advanced",
-    description: "マクロなど，JAL をより効率よく書くための補助機能を扱います。",
-  }}
-/>
-
-特定の構文だけを確認したい場合は，左のサイドバーから該当ページへ直接移動してください。
+JAL 独自の記法はコンパイラの実装に従います。JVM の形式と検証規則の原典は [Java Virtual Machine Specification](https://docs.oracle.com/javase/specs/jvms/se25/html/index.html) です。このサイトは JAL の使い方を説明するもので，JVM 仕様全体を置き換えるものではありません。

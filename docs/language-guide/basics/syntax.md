@@ -1,133 +1,98 @@
 ---
 title: 構文ガイド
-description: JAL ファイルの基本構造，型記述子，クラス，フィールド，メソッドの書き方。
+description: クラス，フィールド，メソッド，ラベルの基本的な記法。
 ---
-
-import InstructionTrace from '@site/src/components/InstructionTrace';
 
 # 構文ガイド
 
-JAL ソースは 1 ファイルにつき 1 つのクラスまたはインターフェースを定義します。構文は JVM クラスファイルに近く，クラスメタデータ，フィールド，メソッド，命令列を明示的に書きます。
+JAL のソースファイルには，一つのクラスまたはインターフェースを定義します。クラスの中にフィールドとメソッドを書き，メソッドの中に命令を並べます。
 
-この近さは機械語やアセンブリ言語の入門にも役立ちます。Java のソースコードからは見えにくい class ファイルの構造を，命令列，型記述子，メンバー参照として直接確認できます。x86 などの実機向けアセンブリに進む前に，より単純な JVM のモデルで命令実行の流れを追えます。
-
-<InstructionTrace
-  trace={ `
-  public class HelloWorld (
-    major_version=55,
-    minor_version=0,
-    super_class=java/lang/Object) {
-
-    public static main([Ljava/lang/String;)V {
-      return
-    }
-  }
-`}
-/>
-
-## クラス
-
-クラスはアクセス修飾子，属性，`class` または `interface`，クラス名，任意のメタデータ，本文で構成されます。
-
-<InstructionTrace
-  trace={ `
-  public final class Example (
-    major_version=55,
-    minor_version=0,
-    interfaces=java/lang/Cloneable) {
-  }
-`}
-/>
-
-主なクラスメタデータ:
-
-| 名前 | 意味 |
-| --- | --- |
-| `major_version` | Java クラスファイルのメジャーバージョン。`45` は Java 1.0/1.1，`55` は Java 11，`61` は Java 17，`71` は Java 27。 |
-| `minor_version` | クラスファイルのマイナーバージョン。通常は `0`。 |
-| `super_class` | 親クラス。省略時は `java/lang/Object`。 |
-| `interfaces` | 実装するインターフェースの一覧。 |
-
-## フィールド
-
-フィールドは `name : descriptor` の形で書き，スカラー値で初期化できます。
-
-<InstructionTrace
-  trace={ `
-  private count:I = 0;
-  public static final MESSAGE:Ljava/lang/String; = "ready";
-  volatile current:I;
-`}
-/>
-
-よく使う属性は `public`，`private`，`protected`，`static`，`final`，`volatile`，`transient` です。
-
-## メソッド
-
-メソッドは JVM のメソッド記述子を使います。`(II)I` は int を 2 つ受け取り int を返す，`([Ljava/lang/String;)V` は `String[]` を受け取り `void` を返す，という意味です。
-
-<InstructionTrace
-  trace={ `
-  public add(II)I {
-  ↑ - | 0: this; 1: arg0; 2: arg1
-    iload_0
-    ↑ this | 0: this; 1: arg0; 2: arg1
-    iload_1
-    ↑ this; arg0 | 0: this; 1: arg0; 2: arg1
-    iadd
-    ↑ this + arg0 | 0: this; 1: arg0; 2: arg1
-    ireturn
-    ↑ - | 0: this; 1: arg0; 2: arg1
-  }
-`}
-/>
-
-コンストラクタは `<init>`，クラス初期化子は `<clinit>` です。
-
-<InstructionTrace
-  trace={ `
-  public <init>()V {
-  ↑ - | 0: this
-    aload_0
-    ↑ this | 0: this
-    invokespecial java/lang/Object-><init>()V
-    ↑ - | 0: this
+```jal
+public class HelloWorld (major_version=55, minor_version=0) {
+  public static main([Ljava/lang/String;)V {
+    getstatic java/lang/System->out:Ljava/io/PrintStream;
+    ldc "Hello, World!"
+    invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
     return
-    ↑ - | 0: this
   }
-`}
-/>
+}
+```
 
-## 型記述子
+このまま [Jaspera](https://jal.yamad.jp/jaspera/) に貼り付けて実行できます。
 
-JAL は JVM と同じ型記述子を使います。
+## 空白とコメント
 
-| 記述子 | Java 型 |
+改行とインデントは命令の意味を変えません。このドキュメントでは一行に一命令を書き，メソッド本体を一段下げます。ラベルはメソッド宣言と同じ深さに置きます。
+
+`//` から行末まではコメントです。複数行のコメントには `/* ... */` を使います。文字列は二重引用符で囲みます。
+
+## クラス宣言
+
+```jal
+public final class examples/Empty (major_version=55, minor_version=0) {
+}
+```
+
+クラス名は JVM 内部名です。パッケージ区切りには `/` を使います。括弧内には `名前=値` の形でメタデータを書き，複数指定する場合はコンマで区切ります。
+
+| 名前 | 指定するもの |
 | --- | --- |
-| `V` | `void` |
-| `Z` | `boolean` |
-| `B` | `byte` |
-| `C` | `char` |
-| `S` | `short` |
-| `I` | `int` |
-| `J` | `long` |
-| `F` | `float` |
-| `D` | `double` |
-| `Ljava/lang/String;` | `java.lang.String` |
-| `[I` | `int[]` |
-| `[[Ljava/lang/Object;` | `java.lang.Object[][]` |
+| `major_version` | クラスファイルのメジャーバージョン |
+| `minor_version` | クラスファイルのマイナーバージョン |
+| `super_class` | 親クラスの内部名。通常，省略時は `java/lang/Object` |
+| `interfaces` | 実装するインターフェースの内部名 |
+
+バージョン番号の意味は [クラスファイルの見方](./class-file-model.md) を参照してください。
+
+## フィールド宣言
+
+```jal
+private count:I
+public static final MESSAGE:Ljava/lang/String; = "ready"
+```
+
+フィールド名の後ろに `:` と型記述子を書きます。`Ljava/lang/String;` の末尾のセミコロンは記述子の一部です。`I` にはセミコロンを付ける必要はありません。
+
+`= 値` はクラスファイルの定数値属性を指定します。Java の任意の初期化式とは異なります。インスタンスフィールドへの代入はコンストラクタなどで `putfield` を使います。詳しくは [クラス，フィールド，メソッド](./classes-and-members.md) で説明します。
+
+## メソッド宣言
+
+```jal
+public static add(II)I {
+  iload_0
+  iload_1
+  iadd
+  ireturn
+}
+```
+
+メソッド名の直後に，引数型を囲む `()` と戻り型を書きます。上の例は二つの `int` を受け取り，その和を返します。`static` なので引数はスロット 0 と 1 に入ります。
+
+インスタンスメソッドではスロット 0 が `this` です。同じ引数なら `iload_1` と `iload_2` で読み出します。`iload_0` で参照型の `this` を読み出すことはできません。
+
+抽象メソッドには空の `{}` を付けます。宣言の例は [インターフェースと抽象メソッド](./classes-and-members.md#インターフェースと抽象メソッド) を参照してください。コンストラクタ名は `<init>`，クラス初期化メソッド名は `<clinit>` です。
 
 ## メンバー参照
 
-フィールドとメソッドは `ClassName->member` の形で参照します。
+```text
+java/lang/System->out:Ljava/io/PrintStream;
+java/io/PrintStream->println(Ljava/lang/String;)V
+```
 
-<InstructionTrace
-  trace={ `
-  getstatic java/lang/System->out:Ljava/io/PrintStream;
-  ↑ System.out | -
-  invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
-  ↑ - | -
-`}
-/>
+`->` の左側は参照するクラスまたはインターフェースの内部名です。右側はメンバー名と記述子です。フィールドでは `:` を挟み，メソッドでは引数の括弧を続けます。
 
-クラス名は JVM 内部名を使うため，パッケージ区切りは `.` ではなく `/` です。
+## ラベル
+
+```jal
+public static positive(I)Z {
+  iload_0
+  ifle NonPositive
+  iconst_1
+  ireturn
+NonPositive:
+  iconst_0
+  ireturn
+}
+```
+
+`NonPositive:` は命令の位置に名前を付けるラベルです。ラベル自身はバイトコードを生成しません。`ifle` はスタックから整数を取り出し，0 以下なら指定した位置へ分岐します。

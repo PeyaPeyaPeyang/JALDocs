@@ -1,224 +1,88 @@
 ---
 title: クラス，フィールド，メソッド
-description: JAL におけるクラス定義，フィールド定義，コンストラクタ，static 初期化子の書き方。
+description: クラスの宣言，定数値と初期化，インスタンスと static の違い。
 ---
-
-import InstructionTrace from '@site/src/components/InstructionTrace';
 
 # クラス，フィールド，メソッド
 
-JAL のトップレベルはクラスまたはインターフェースです。Java ソースと似た単語を使いますが，書いているものは JVM クラスファイルに近い構造です。クラスの属性，フィールドの型，メソッド記述子を明示するため，Java コンパイラが普段隠している情報を自分で指定します。
+クラスにはフィールドとメソッドを宣言します。JAL は Java のコンストラクタや初期化式を自動で補う言語ではないため，必要な処理を命令として書きます。
 
-## クラス宣言
+## インスタンスの値を読み書きする
 
-最小のクラスは次のように書けます。
+```jal
+public class Counter (major_version=55, minor_version=0) {
+  private count:I
 
-<InstructionTrace
-  trace={ `
-  public class Empty (
-    major_version=55,
-    minor_version=0) {
-  }
-`}
-/>
-
-`major_version` と `minor_version` は class ファイルのバージョンです。`super_class` を省略した場合は，通常 `java/lang/Object` を親クラスとして扱います。
-
-<InstructionTrace
-  trace={ `
-  public final class App (
-    major_version=61,
-    minor_version=0,
-    super_class=java/lang/Object) {
-  }
-`}
-/>
-
-クラス名や親クラス名は JVM 内部名で書きます。パッケージ付きのクラスなら `com/example/App` のように `/` を使います。
-
-## インターフェース
-
-インターフェースは `interface` で定義します。
-
-<InstructionTrace
-  trace={ `
-  public abstract interface Printer (
-    major_version=55,
-    minor_version=0) {
-
-    public abstract print(Ljava/lang/String;)V
-  }
-`}
-/>
-
-インターフェースの抽象メソッドは本体を持たない形で表現される場合があります。具体的な記法は，プロジェクト内のサポート範囲に合わせて既存のサンプルやテストとそろえてください。
-
-## フィールド定義
-
-フィールドは `名前:型記述子` の形で書きます。
-
-<InstructionTrace
-  trace={ `
-  private count:I = 0;
-  public static final MESSAGE:Ljava/lang/String; = "ready";
-  volatile current:I;
-`}
-/>
-
-フィールドの型は JVM 型記述子です。`I` は int，`J` は long，`Ljava/lang/String;` は `String`，`[I` は int 配列です。
-
-よく使う修飾子は次の通りです。
-
-| 修飾子 | 意味 |
-| --- | --- |
-| `public` | 外部からアクセスできる |
-| `private` | クラス内部からのみアクセスする |
-| `protected` | 継承や同一パッケージでのアクセスを想定する |
-| `static` | インスタンスではなくクラスに属する |
-| `final` | 再代入しない定数的な値 |
-| `volatile` | スレッド間での可視性を意識するフィールド |
-| `transient` | シリアライズ対象外を示す |
-
-## インスタンスメソッド
-
-インスタンスメソッドでは，ローカル変数スロット 0 に `this` が入ります。
-
-<InstructionTrace
-  trace={ `
-  public getCount()I {
-  ↑ - | 0: this
-    aload_0
-    ↑ this | 0: this
-    getfield Counter->count:I
-    ↑ this.count | 0: this
-    ireturn
-    ↑ - | 0: this
-  }
-`}
-/>
-
-`aload_0` で `this` を積み，`getfield` がそのオブジェクトから `count` を読みます。`getfield` は対象オブジェクトをスタックから取り出すため，フィールド参照の前に必ず参照を積んでおく必要があります。
-
-## static メソッド
-
-static メソッドには `this` がありません。引数はスロット 0 から始まります。
-
-<InstructionTrace
-  trace={ `
-  public static add(II)I {
-  ↑ - | 0: left; 1: right
-    iload_0
-    ↑ left | 0: left; 1: right
-    iload_1
-    ↑ left; right | 0: left; 1: right
-    iadd
-    ↑ left + right | 0: left; 1: right
-    ireturn
-    ↑ - | 0: left; 1: right
-  }
-`}
-/>
-
-同じ `(II)I` でも，インスタンスメソッドならスロット 1 と 2 が引数になります。static かどうかでスロット配置が変わる点は，JAL でよくあるつまずきです。
-
-## コンストラクタ
-
-コンストラクタは JVM では `<init>` という特殊メソッドです。通常，最初に `this` を積み，親クラスのコンストラクタを `invokespecial` で呼びます。
-
-<InstructionTrace
-  trace={ `
-  public <init>()V {
-  ↑ - | 0: this
-    aload_0
-    ↑ this | 0: this
-    invokespecial java/lang/Object-><init>()V
-    ↑ - | 0: this
-    return
-    ↑ - | 0: this
-  }
-`}
-/>
-
-フィールドを初期化する場合は，親コンストラクタ呼び出しの後に `putfield` を使います。
-
-<InstructionTrace
-  trace={ `
   public <init>(I)V {
-  ↑ - | 0: this; 1: count
     aload_0
-    ↑ this | 0: this; 1: count
     invokespecial java/lang/Object-><init>()V
-    ↑ - | 0: this; 1: count
-
     aload_0
-    ↑ this | 0: this; 1: count
     iload_1
-    ↑ this; count | 0: this; 1: count
     putfield Counter->count:I
-    ↑ - | 0: this; 1: count
     return
-    ↑ - | 0: this; 1: count
   }
-`}
-/>
 
-`putfield` はスタックから「対象オブジェクト」と「代入する値」を取り出します。この例では `aload_0` で `this`，`iload_1` でコンストラクタ引数を積んでいます。
+  public setCount(I)V {
+    aload_0
+    iload_1
+    putfield Counter->count:I
+    return
+  }
 
-## static 初期化子
+  public getCount()I {
+    aload_0
+    getfield Counter->count:I
+    ireturn
+  }
+}
+```
 
-static フィールドの初期化やクラスロード時の処理は `<clinit>` に書きます。
+`<init>` はコンストラクタです。この例では親のコンストラクタを呼んでから，引数を `count` に代入します。`setCount` を呼ぶと，後から値を変更できます。どちらのメソッドも，スロット 0 は `this`，スロット 1 は `int` 引数です。
 
-<InstructionTrace
-  trace={ `
-  private static total:I = 0;
+`putfield` の直前には，下から対象オブジェクト，代入する値の順に積みます。`getfield` は対象オブジェクトの参照を取り出し，フィールド値を積みます。
+
+コンストラクタを宣言しなければ，JAL が引数なしコンストラクタを自動で追加することはありません。static メソッドだけを使うクラスには，コンストラクタがなくても構いません。
+
+## 定数値と初期化処理
+
+```jal
+public static final MESSAGE:Ljava/lang/String; = "ready"
+```
+
+フィールド宣言の `= 値` は `ConstantValue` 属性として出力されます。JVM がこの属性を使って初期化するのは static フィールドです。インスタンスフィールドに書いても，コンストラクタでの代入にはなりません。
+
+指定できる定数の種類はフィールド型によって決まります。任意のオブジェクトを `new` したり，メソッドを呼び出したりする初期化式は書けません。
+
+処理を伴う static 初期化には `<clinit>` を使います。
+
+```jal
+public class Settings (major_version=55, minor_version=0) {
+  private static text:Ljava/lang/String;
 
   static <clinit>()V {
-  ↑ - | -
-    iconst_0
-    ↑ 0 | -
-    putstatic Counter->total:I
-    ↑ - | -
+    ldc "ready"
+    putstatic Settings->text:Ljava/lang/String;
     return
-    ↑ - | -
   }
-`}
-/>
+}
+```
 
-`putstatic` は対象オブジェクトを必要としません。フィールドに入れる値だけをスタックに積みます。
+`<clinit>` はクラスの初期化時に JVM が実行します。クラスファイルを読み込んだ瞬間に必ず実行するという意味ではありません。static メソッドの呼び出しなど，初期化が必要になる操作で実行されます。
 
-## フィールドアクセスの違い
+## メソッドとアクセス修飾子
 
-フィールド命令は 4 種類あります。
+メソッドは名前，記述子，修飾子，本体で定義します。`static` メソッドには `this` がなく，最初の引数はスロット 0 に入ります。インスタンスメソッドは対象オブジェクトを伴って呼び出します。
 
-| 命令 | 対象 | スタックに必要なもの |
-| --- | --- | --- |
-| `getfield` | インスタンスフィールド読み取り | 対象オブジェクト |
-| `putfield` | インスタンスフィールド書き込み | 対象オブジェクト，値 |
-| `getstatic` | static フィールド読み取り | なし |
-| `putstatic` | static フィールド書き込み | 値 |
+`public`，`protected`，`private` を省略すると，パッケージアクセスです。`final` は，フィールドでは代入可能な場所を制限し，メソッドではオーバーライドを，クラスでは継承を禁止します。フィールドが `final` でも，参照先オブジェクトの内容まで不変になるわけではありません。
 
-`System.out.println` の前に使う `getstatic` は，`System.out` が static フィールドだからです。
+## インターフェースと抽象メソッド
 
-<InstructionTrace
-  trace={ `
-  getstatic java/lang/System->out:Ljava/io/PrintStream;
-  ↑ System.out | -
-  ldc "hello"
-  ↑ System.out; "hello" | -
-  invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
-  ↑ - | -
-`}
-/>
+```jal
+public abstract interface Printer (major_version=55, minor_version=0) {
+  public abstract print(Ljava/lang/String;)V {}
+}
+```
 
-## メンバーを書くときの基準
+抽象メソッドには処理を書かず，空の `{}` を付けます。実際の処理は，このインターフェースを実装するクラスで定義します。抽象メソッドのクラスファイルには，命令列を格納する `Code` 属性を付けません。
 
-クラス，フィールド，メソッドを書くときは，Java ソースの見た目ではなく JVM が必要とする情報をそろえることを意識します。
-
-| 書くもの | 確認すること |
-| --- | --- |
-| クラス | class ファイルバージョン，親クラス，インターフェース |
-| フィールド | static か instance か，型記述子，初期値 |
-| メソッド | static か instance か，引数と戻り値，戻り命令 |
-| コンストラクタ | 親コンストラクタ呼び出し，`this` の扱い |
-
-JAL の記述は明示的なので，最初にこの表を確認してから命令列を書くと，スタックやローカル変数のずれを減らせます。
+フィールドの定数値は [JVM 仕様 §4.7.2](https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-4.html#jvms-4.7.2)，クラスの初期化は [§5.5](https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-5.html#jvms-5.5) に規定されています。

@@ -1,141 +1,108 @@
 ---
 title: 制御フロー
-description: ラベル，条件分岐，ループ，switch の書き方。
+description: ラベル，条件分岐，ループ，switch の記法。
 ---
-
-import InstructionTrace from '@site/src/components/InstructionTrace';
 
 # 制御フロー
 
-JAL の制御フローはラベルとジャンプ命令で表現します。Java の `if`，`while`，`switch` に相当する構造も，最終的には JVM 命令として書きます。
+命令は通常，上から順に実行します。分岐命令は，ラベルで指定した位置へ実行を移します。ラベルは同じメソッドの中で参照し，ラベル自身はバイトコードを生成しません。
 
-## ラベル
+## 条件によって分岐する
 
-ラベルは行頭に `Name:` の形で置きます。
+```jal
+public static positive(I)Z {
+  iload_0
+  ifle NonPositive
+  iconst_1
+  ireturn
+NonPositive:
+  iconst_0
+  ireturn
+}
+```
 
-<InstructionTrace
-  trace={ `
-  LoopStart:
-  ↑ - | 1: i
-    iload_1
-    ↑ i | 1: i
-    bipush 101
-    ↑ i; 101 | 1: i
-    if_icmpge LoopEnd
-    ↑ - | 1: i
-    iinc 1 1
-    ↑ - | 1: i + 1
-    goto LoopStart
-    ↑ - | 1: i + 1
+`ifle` は整数を一つ取り出し，0 以下なら分岐します。条件を満たさなければ直後の命令へ進みます。どちらの経路でも，比較に使った値はスタックから取り出されます。
 
-  LoopEnd:
-  ↑ - | 1: i
-    return
-    ↑ - | 1: i
-`}
-/>
+| 命令 | 比較するもの |
+| --- | --- |
+| `ifeq`，`ifne`，`iflt`，`ifle`，`ifgt`，`ifge` | `int` と 0 |
+| `if_icmp*` | 二つの `int` |
+| `ifnull`，`ifnonnull` | 参照と `null` |
+| `if_acmpeq`，`if_acmpne` | 二つの参照が同じかどうか |
 
-## 条件分岐
+二つの整数を下から `a, b` と積んだ場合，`if_icmplt` は `a < b` で分岐します。参照の比較は同じオブジェクトを指すかの比較であり，文字列の内容を比べる操作ではありません。
 
-単一の値を 0 や null と比較する命令:
+`long` は `lcmp`，浮動小数点は `fcmp*`・`dcmp*` で比較結果の `int` を作り，続く条件分岐で使います。浮動小数点の比較では NaN の扱いに応じて `g` と `l` を選びます。
 
-<InstructionTrace
-  trace={ `
-  ifeq label
-  ↑ - | -
-  ifne label
-  ↑ - | -
-  iflt label
-  ↑ - | -
-  ifle label
-  ↑ - | -
-  ifgt label
-  ↑ - | -
-  ifge label
-  ↑ - | -
-  ifnull label
-  ↑ - | -
-  ifnonnull label
-  ↑ - | -
-`}
-/>
+## ループ
 
-2 つの値を比較する命令:
-
-<InstructionTrace
-  trace={ `
-  if_icmpeq label
-  ↑ - | -
-  if_icmpne label
-  ↑ - | -
-  if_icmplt label
-  ↑ - | -
-  if_icmple label
-  ↑ - | -
-  if_icmpgt label
-  ↑ - | -
-  if_icmpge label
-  ↑ - | -
-  if_acmpeq label
-  ↑ - | -
-  if_acmpne label
-  ↑ - | -
-`}
-/>
-
-## FizzBuzz の分岐例
-
-<InstructionTrace
-  trace={ `
+```jal
+public static sum()I {
+  iconst_0
+  istore_0
+  iconst_1
+  istore_1
+Loop:
   iload_1
-  ↑ i | 1: i
-  bipush 15
-  ↑ i; 15 | 1: i
-  irem
-  ↑ i % 15 | 1: i
-  ifne NotFizzBuzz
-  ↑ - | 1: i
+  bipush 10
+  if_icmpgt Done
+  iload_0
+  iload_1
+  iadd
+  istore_0
+  iinc 1 1
+  goto Loop
+Done:
+  iload_0
+  ireturn
+}
+```
 
-  getstatic java/lang/System->out:Ljava/io/PrintStream;
-  ↑ System.out | 1: i
-  ldc "FizzBuzz"
-  ↑ System.out; "FizzBuzz" | 1: i
-  invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
-  ↑ - | 1: i
-  goto LoopIncrement
-  ↑ - | 1: i
-
-  NotFizzBuzz:
-  ↑ - | 1: i
-`}
-/>
-
-`irem` の結果が 0 でなければ `NotFizzBuzz` へ進み，0 なら文字列を出力してループ末尾へジャンプします。
+1 から 10 までを加算して `55` を返します。スロット 0 は合計，スロット 1 は加算する数です。`goto` は条件なしで分岐します。各周回で `Loop` に戻る時点のスタックは空です。
 
 ## switch
 
-連続した整数ケースには `tableswitch`，疎な整数ケースには `lookupswitch` を使います。
+`tableswitch` は連続する整数の範囲を扱います。最初の数が最小値で，列挙したラベルに順番に対応します。
 
-<InstructionTrace
-  trace={ `
+```jal
+public static table(I)I {
+  iload_0
   tableswitch 1 {
-    CaseOne,
-    CaseTwo,
-    CaseThree
-  } default DefaultCase
-  ↑ - | -
-`}
-/>
+    One,
+    Two
+  } default Other
+One:
+  bipush 10
+  ireturn
+Two:
+  bipush 20
+  ireturn
+Other:
+  iconst_m1
+  ireturn
+}
+```
 
-<InstructionTrace
-  trace={ `
+`lookupswitch` はキーとラベルの組を指定します。比較する `int` を一つ消費する点は同じです。キーは重複させず，昇順に書きます。
+
+```jal
+public static lookup(I)I {
+  iload_0
   lookupswitch {
-    10 : CaseTen,
-    100 : CaseHundred,
-    default : DefaultCase
+    10: Ten,
+    100: Hundred,
+    default: Other
   }
-  ↑ - | -
-`}
-/>
+Ten:
+  iconst_1
+  ireturn
+Hundred:
+  iconst_2
+  ireturn
+Other:
+  iconst_m1
+  ireturn
+}
+```
 
-各ケース末尾では，必要に応じて `goto EndSwitch` を置いて明示的に合流させます。
+ラベルはブロックを自動で終了しません。ケースの最後から次のケースへ進めたくない場合は，戻り命令か `goto` を書きます。分岐が合流する場合の条件は [StackMapFrame と検証](./stackmap-and-verification.md) を参照してください。

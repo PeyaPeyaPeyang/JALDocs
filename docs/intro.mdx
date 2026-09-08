@@ -1,35 +1,24 @@
 ---
 title: はじめに
-description: JAL の概要と最小の HelloWorld。
+description: JAL と LangJAL，Jaspera の役割と最初のプログラム。
 ---
 
 # はじめに
 
-JAL（JVM Assembly Language）は，Java Virtual Machine 向けのテキストアセンブリ言語です。JVM バイトコードに直接対応する構造を保ちながら，ラベル，名前付きローカル変数，読みやすいメンバー参照，構造化された例外処理を使って `.class` を生成できます。
+JAL（JVM Assembly Language）は，Java 仮想マシン（JVM）の命令を記述するアセンブリ言語です。`.jal` ファイルにクラスと命令列を書き，コンパイラで `.class` ファイルへ変換します。
 
-JAL は，機械語やアセンブリ言語の入門にも使えることを意識しています。x86 などの実機向けアーキテクチャは強力ですが，命令，レジスタ，メモリ，ABI，OS との関係を同時に扱う必要があり，最初の題材としては複雑になりがちです。
+Java の `System.out.println(...)` も，JAL では値を積む命令とメソッドを呼ぶ命令に分けて書きます。Java の構文を知っていれば，見慣れた処理とバイトコードの対応を調べる題材になります。JVM 固有の用語は各ページで説明します。
 
-JVM はそれらに比べると，スタック，ローカル変数，分岐，メソッド呼び出しを中心にした単純なモデルとして観察できます。まず JVM のアセンブリで「命令を並べると機械がどう動くか」を学び，そのあと x86 や他のアーキテクチャへ進むための足場にできます。
+## ドキュメントで読み，Jaspera で試す
 
-Jasmin のような既存の Java アセンブラの考え方を引き継ぎつつ，現代の JVM で必要になる StackMapFrame を自動生成することを重視しています。
+このサイトは JAL の書き方を調べるドキュメントです。[Jaspera](https://jal.yamad.jp/jaspera/) は，JAL の編集・コンパイル・実行をブラウザ内で行うサンドボックスです。ステップ実行で停止し，オペランドスタックやローカル変数の値を確認できます。
 
-## Jasmin があるのに！
+まず試すなら [チュートリアル](./usage/tutorial.mdx) へ進んでください。CLI や IntelliJ IDEA を使う場合は [ツールの導入](./usage/tooling.md) に手順があります。
 
-[Jasmin](https://jasmin.sourceforge.net/) は JVM バイトコードをテキストで書くための，事実上の標準と言える存在です。Java アセンブリ言語として広く知られており，JVM の低レイヤを扱ううえで重要な先行プロジェクトです。
-
-一方で，Jasmin の文法は JVM の構造をそのまま強く反映しているため，やや複雑で分かりにくい部分があります。初めて JVM バイトコードを学ぶ人にとっては，命令そのものを理解する前に，記法や周辺情報の扱いでつまずきやすい面があります。
-
-JAL は，そうした学びにくさを減らし，よりモダンな Java アセンブリ言語として使えるものを目指して作りました。StackMapFrame の自動生成，名前付きローカル変数，読みやすいメンバー参照，ラベルを使った例外処理，IntelliJ IDEA での補完やデバッグ連携を通じて，JVM を機械語入門の題材としても扱いやすくすることを重視しています。
-
-対応する class ファイルの範囲は Java 1.0 から Java 27 までです。古いバージョンの class ファイルを観察する用途にも，最新の JVM 仕様を追う用途にも使えます。
-
-## 最小のプログラム
+## HelloWorld
 
 ```jal
-public class HelloWorld (
-  major_version=55,
-  minor_version=0) {
-
+public class HelloWorld (major_version=55, minor_version=0) {
   public static main([Ljava/lang/String;)V {
     getstatic java/lang/System->out:Ljava/io/PrintStream;
     ldc "Hello, World!"
@@ -39,30 +28,12 @@ public class HelloWorld (
 }
 ```
 
-このプログラムは Java 11 相当の class ファイルとして `HelloWorld` を定義し，`main(String[] args)` から `System.out.println("Hello, World!")` を呼びます。
+`getstatic` が `System.out` の参照を積み，`ldc` が文字列を積みます。`invokevirtual` はこの二つを使って `println` を呼び，`return` が `main` を終了します。
 
-## JAL が扱いやすくしていること
+`([Ljava/lang/String;)V` は「`String[]` を一つ受け取り，値を返さない」というメソッド記述子です。`major_version=55` は Java 11 のクラスファイル形式を指定しています。実行には，その形式と使用する API に対応した JVM が必要です。
 
-| 項目 | 内容 |
-| --- | --- |
-| StackMapFrame | コンパイラが解析して自動生成します。 |
-| ローカル変数 | スロット番号だけでなく名前ヒントを使えます。 |
-| メンバー参照 | `java/io/PrintStream->println(Ljava/lang/String;)V` のようにクラスとメンバーを分けて書けます。 |
-| 制御フロー | ラベル，条件分岐，`goto`，`tableswitch`，`lookupswitch` を明示できます。 |
-| IDE 支援 | Javasm IntelliJ Plugin で補完，ドキュメント，デバッグ連携を利用できます。 |
+## コンパイラが行うこと
 
-## コンパイル
+JAL では，分岐先にラベルを使い，フィールドやメソッドを名前と型で参照します。コンパイラがそれらをクラスファイルの形式へ変換し，通常の設定では検証用のスタックマップも生成します。命令の順番や値の型が誤っている場合は，ソースの修正が必要です。
 
-JAL CLI Compiler をインストール済みなら，次のように `.jal` をコンパイルできます。
-
-```bash
-jalc HelloWorld.jal
-```
-
-jar として出力する場合:
-
-```bash
-jalc HelloWorld.jal --output HelloWorld.jar
-```
-
-次は [チュートリアル](./usage/tutorial.mdx) で HelloWorld を実際に作って動かしてください。その後 [使い方](./usage/README.mdx) でツール全体を確認し，最後に [言語ガイド](./language-guide/README.mdx) から構文，クラスファイル，型記述子，スタックとローカル変数へ進むのがおすすめです。
+JVM バイトコードは仮想マシンの命令です。CPU のレジスタや OS の呼び出し規約を直接指定する言語ではありません。まず [クラスファイルの見方](./language-guide/basics/class-file-model.md) で，何を記述しているのかを確認できます。

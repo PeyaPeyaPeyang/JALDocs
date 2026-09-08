@@ -1,53 +1,15 @@
-import DocCard from "@theme/DocCard";
+---
+title: 実行モデル
+description: 命令を実行したときの値の受け渡しを読む。
+---
 
 # 実行モデル
 
-スタック，ローカル変数，命令，オブジェクト，配列，メソッド呼び出しの入口。
+命令を読むときは，実行前に必要な値と，実行後に残る値を確認します。メソッド呼び出しごとに持つフレームが，その値の置き場所です。
 
----
+- [スタックとローカル変数](./stack-and-locals.md)：フレームの構造とスロット配置
+- [命令の分類](./instructions.md)：用途と型から命令を探す
+- [オブジェクトと配列](./objects-and-arrays.md)：参照の生成，初期化，要素アクセス
+- [メソッド呼び出し](./method-invocation.md)：対象・引数・戻り値の受け渡し
 
-この階層では，JAL の命令列が JVM 上でどう動くかを扱います。JVM はスタックマシンなので，値がどの順番で積まれ，どの命令で消費されるかを追うことが重要です。
-
-## ページ一覧
-
-<DocCard
-  item={{
-    type: "link",
-    label: "スタックとローカル変数",
-    docId: "language-guide/runtime/stack-and-locals",
-    href: "/docs/language-guide/runtime/stack-and-locals",
-    description: "オペランドスタック，ローカル変数スロット，名前ヒント。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "命令",
-    docId: "language-guide/runtime/instructions",
-    href: "/docs/language-guide/runtime/instructions",
-    description: "定数，ロード，ストア，算術，配列，フィールド，戻り命令。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "オブジェクトと配列",
-    docId: "language-guide/runtime/objects-and-arrays",
-    href: "/docs/language-guide/runtime/objects-and-arrays",
-    description: "`new`，`dup`，コンストラクタ，配列作成，配列アクセス。",
-  }}
-/>
-
-<DocCard
-  item={{
-    type: "link",
-    label: "メソッド呼び出し",
-    docId: "language-guide/runtime/method-invocation",
-    href: "/docs/language-guide/runtime/method-invocation",
-    description: "`invokevirtual`，`invokespecial`，`invokestatic`，`invokeinterface`。",
-  }}
-/>
-
-命令を読むときは，各行の後でスタックに何が残っているかを確認すると理解しやすくなります。
+[Jaspera](https://jal.yamad.jp/jaspera/) のステップ実行では，停止したフレームの状態を確認できます。操作は [Jaspera で試す](../../usage/jaspera.md) を参照してください。

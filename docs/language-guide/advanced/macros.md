@@ -5,9 +5,9 @@ description: "JAL の #define マクロ，関数形式マクロ，複数行マ�
 
 # マクロ
 
-JAL はコンパイル前に簡単なプリプロセッサを実行し，`#define` で定義したマクロをソース中へ展開できます。マクロは命令ニーモニック，命令引数，クラス名，複数命令のまとまりなどに利用できます。
+`#define` は，名前に対応するソースをコンパイル前に展開します。定数やクラス名，繰り返す命令列に別名を付けられます。
 
-マクロは展開後に通常の JAL として解析されます。つまり，マクロ自体が新しい JVM 命令や型規則を追加するわけではありません。
+展開後のソースを通常の JAL として解析します。命令が消費する値や型の規則は，展開した命令列と同じです。
 
 ## オブジェクト形式マクロ
 
@@ -65,18 +65,18 @@ public class MultiLineDefine {
 ```jal
 #define PRINT_STRING(value) \
     getstatic java/lang/System->out:Ljava/io/PrintStream; \
-    value \
+    ldc value \
     invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
 
 public class PrintExample {
   public static main([Ljava/lang/String;)V {
-    PRINT_STRING(ldc "Hello")
+    PRINT_STRING("Hello")
     return
   }
 }
 ```
 
-関数形式マクロは，似た命令列を複数箇所で使うときに便利です。ただし，展開後のスタック状態が正しいかは呼び出し側で確認します。
+`PRINT_STRING("Hello")` は三つの命令に展開されます。マクロ自体の呼び出し用フレームは作りません。展開された `invokevirtual` は通常どおり `println` を呼び出します。
 
 ## 展開ルール
 
@@ -88,4 +88,4 @@ public class PrintExample {
 
 ## 注意点
 
-マクロは単純な展開機能なので，スコープや型検査を持ちません。短い命令列の別名や定型的な出力処理には向いていますが，複雑な制御フローを隠しすぎると展開後のスタック状態を追いにくくなります。
+マクロ引数に型はありません。型の検査は展開後の命令列に対して行われます。ラベルを含むマクロを同じメソッドで複数回使うと，ラベル名が重複する場合があります。制御フローをまとめるときは，展開後の名前とジャンプ先も確認してください。
