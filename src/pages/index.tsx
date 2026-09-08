@@ -32,67 +32,65 @@ public static twice(I)I {
   imul
   ↑ value * 2 | 0: value
   ireturn
-  ↑ - | 0: value
 }
-↑ - | 0: value
+
 `;
 
 const branchTrace = `
-L_check:
-↑ - | 0: count; 1: writer
-  iload count
-  ↑ count | 0: count; 1: writer
-  ifle L_done
-  ↑ - | 0: count; 1: writer
-  aload writer
-  ↑ writer | 0: count; 1: writer
-  ldc "Hello, World!"
-  ↑ writer; "Hello, World!" | 0: count; 1: writer
-  invokevirtual java/io/PrintStream->println(Ljava/lang/String;)V
-  ↑ - | 0: count; 1: writer
-  goto L_check
-  ↑ - | 0: count; 1: writer
-
-L_done:
-↑ - | 0: count; 1: writer
+public static countdown(I)V {
+Loop:
+  iload_0
+  ↑ count | 0: count
+  ifle Done
+  ↑ - | 0: count
+  getstatic java/lang/System->out:Ljava/io/PrintStream;
+  ↑ System.out | 0: count
+  iload_0
+  ↑ System.out; count | 0: count
+  invokevirtual java/io/PrintStream->println(I)V
+  ↑ - | 0: count
+  iinc 0 -1
+  ↑ - | 0: count - 1
+  goto Loop
+Done:
   return
-  ↑ - | 0: count; 1: writer
+}
 `;
 
 const featureItems = [
   {
     icon: faCompassDrafting,
-    title: '機械語入門の足場になる',
-    body: 'JVM は x86 などの実機向けアーキテクチャより単純なモデルで，スタック，ローカル変数，分岐，呼び出しを追いやすい仮想機械です。JAL はその構造を直接書いて観察できます。',
+    title: '命令と値の関係を読む',
+    body: '命令がどの値を取り出し，何を残すのか。スタックとローカル変数を追いながら，計算や分岐の仕組みを学びます。',
   },
   {
     icon: faLayerGroup,
     title: 'StackMapFrame を自動生成',
-    body: '現代の Java クラスファイルで必要になる StackMapFrame をコンパイラが計算します。手書きバイトコードで起きがちな VerifyError を減らします。',
+    body: '通常のコンパイルでは，検証に使う型情報を命令列から生成します。分岐の合流点で必要な条件は，言語ガイドで説明します。',
   },
   {
     icon: faBolt,
-    title: 'IDE と一緒に使える',
-    body: 'Javasm IntelliJ Plugin で補完，ホバー説明，ラベル移動，JVM デバッガ連携を利用できます。.jal ファイルを普段の Java 開発に近い感覚で扱えます。',
+    title: 'ブラウザで試せる',
+    body: 'Jaspera は JAL のサンドボックス実行環境です。編集して実行し，ブレークポイントで止めてフレームの状態を確認できます。',
   },
 ];
 
 const workflowItems = [
-  {label: 'Write', description: '.jal で命令，ラベル，型記述子を明示', icon: faFileCode},
-  {label: 'Compile', description: 'jalc が class または jar を生成', icon: faGear},
-  {label: 'Inspect', description: 'IDE と JVM デバッガで動作を確認', icon: faMagnifyingGlass},
+  {label: '読む', description: 'ドキュメントで構文と命令の意味を調べる', icon: faFileCode},
+  {label: '試す', description: 'Jaspera でコードを変更して実行する', icon: faGear},
+  {label: '確かめる', description: 'ステップ実行で値と制御の流れを追う', icon: faMagnifyingGlass},
 ];
 
 const metricItems = [
-  {label: 'Java 1.0 - 27', detail: 'class file versions', icon: faJava},
-  {label: 'CLI / Gradle', detail: 'build integration', icon: faTerminal},
-  {label: 'IntelliJ', detail: 'editor support', icon: faBolt},
+  {label: '.jal → .class', detail: 'JVM バイトコードを生成', icon: faJava},
+  {label: 'CLI / Gradle', detail: 'ローカルでコンパイル', icon: faTerminal},
+  {label: 'IntelliJ', detail: 'Javasm による編集支援', icon: faBolt},
 ];
 
 const toolingItems = [
   {label: 'ツール導入', href: '/docs/usage/tooling', icon: faWandMagicSparkles, internal: true},
   {label: 'Javasm Plugin', href: 'https://plugins.jetbrains.com/plugin/27944-javasm', icon: faBolt},
-  {label: 'Compiler Releases', href: 'https://github.com/PeyaPeyaPeyang/LangJAL/releases', icon: faGithub},
+  {label: 'Compiler Releases', href: 'https://github.com/JVMLand/LangJAL/releases', icon: faGithub},
 ];
 
 function IconLabel({
@@ -131,12 +129,13 @@ function ModernIntro(): ReactNode {
             <img className={styles.modernLogo} src={logoUrl} alt="" />
             <span>JVM Assembly Language</span>
           </div>
-          <h2>機械語の入口に，JVM バイトコードを。</h2>
+          <h2>LangJAL を読み，Jaspera で動かす。</h2>
           <p>
-            JAL は JVM の命令セットに近いまま，ラベル，名前付きローカル変数，読みやすいメンバー参照，
-            自動 StackMapFrame 生成を備えたテキストアセンブリ言語です。x86 などの実機向けアセンブリへ進む前に，
-            より単純な JVM のモデルで命令，スタック，分岐，呼び出しを学べます。
+            LangJAL は JVM 向けのアセンブリ言語 JAL と，そのコンパイラ・逆アセンブラを提供します。
+            このサイトでは，JAL の書き方と命令の動作を調べられます。
+            実際にコードを編集・実行するには，ブラウザ内のサンドボックス Jaspera を使ってください。
           </p>
+          <p><a href="https://jal.yamad.jp/jaspera/">Jaspera を開く</a> · <Link to="/docs/usage/jaspera">使い方を読む</Link></p>
           <dl className={styles.metrics}>
             {metricItems.map((item) => (
               <div key={item.label}>
@@ -150,7 +149,7 @@ function ModernIntro(): ReactNode {
             ))}
           </dl>
         </div>
-        <section className={styles.heroVisual} aria-label="JAL example">
+        <section className={styles.heroVisual} aria-label="整数を2倍にする JAL の例">
           <div className={styles.bytecodeMap} aria-hidden="true">
             <span />
             <span />
@@ -169,7 +168,7 @@ function FeatureGrid(): ReactNode {
     <section className={styles.section} aria-labelledby="features-heading">
       <div className={styles.sectionHeader}>
         <span className={styles.eyebrow}>Language</span>
-        <h2 id="features-heading">アセンブリの考え方を学びやすくする基本機能</h2>
+        <h2 id="features-heading">JAL で学べること</h2>
       </div>
       <div className={styles.grid}>
         {featureItems.map((item, index) => (
@@ -193,10 +192,10 @@ function SyntaxPreview(): ReactNode {
       <div className={styles.split}>
         <div>
           <span className={styles.eyebrow}>Syntax</span>
-          <h2>命令は JVM に近く，参照は読みやすく。</h2>
+          <h2>クラス名と型を指定して呼び出す</h2>
           <p>
-            フィールドとメソッドの参照は ClassName-&gt;member の形で分離されます。
-            JVM 記述子はそのまま使えるため，Java の型とバイトコードの対応を追いやすくなります。
+            フィールドやメソッドは，クラス名・メンバー名・型記述子で参照します。
+            この例は，引数の整数を表示するたびに 1 減らし，0 以下になると終了します。
           </p>
           <Link className={styles.textLink} to="/docs/language-guide/runtime/instructions">
             <IconLabel className={styles.textLinkLabel} icon={faArrowRight}>
@@ -217,7 +216,7 @@ function Workflow(): ReactNode {
     <section className={styles.workflow} aria-labelledby="workflow-heading">
       <div className={styles.sectionHeader}>
         <span className={styles.eyebrow}>Workflow</span>
-        <h2 id="workflow-heading">小さく書いて，すぐ class に落とす。</h2>
+        <h2 id="workflow-heading">説明と実行結果を行き来する</h2>
       </div>
       <div className={styles.timeline}>
         {workflowItems.map((item) => (
@@ -242,8 +241,8 @@ function ToolingBand(): ReactNode {
         <span className={styles.eyebrow}>Tooling</span>
         <h2>CLI，Gradle，IntelliJ から利用</h2>
         <p>
-          jalc で .jal を class や jar にコンパイルできます。IntelliJ IDEA では Javasm がエディタと
-          デバッグ体験を補完し，Gradle プラグインでビルドへ組み込めます。
+          手元の JVM で実行する場合は，jalc でクラスファイルや JAR を生成できます。
+          IntelliJ IDEA 用の Javasm と，Gradle のビルドに組み込むプラグインもあります。
         </p>
       </div>
       <div className={styles.toolLinks}>
@@ -309,7 +308,7 @@ export default function Home(): ReactNode {
   return (
     <Layout
       title={`${siteConfig.title} - JVM Assembly Language`}
-      description="JAL is a readable assembly language for the Java Virtual Machine."
+      description="JAL の構文と JVM 命令のドキュメント。Jaspera で編集・実行しながら学べます。"
       wrapperClassName={navbarVisible ? 'homePageNoNavbar navbarVisible' : 'homePageNoNavbar'}>
       <HomepageHeader />
       <main>

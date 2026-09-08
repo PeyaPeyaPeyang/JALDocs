@@ -5,8 +5,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'JAL',
-  tagline: 'Readable JVM assembly for modern Java bytecode',
+  title: 'LangJAL',
+  tagline: 'JAL の書き方と JVM バイトコードを学ぶ',
   favicon: 'img/jal-logo.svg',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -19,7 +19,7 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://jal.peya.tokyo',
+  url: 'https://jal.yamad.jp',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -46,7 +46,7 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl:
-            'https://github.com/PeyaPeyaPeyang/JVMAssemblyLanguage/tree/main/docs/lang-jal/',
+            'https://github.com/PeyaPeyaPeyang/JALDocs/edit/main/',
         },
         blog: false,
         theme: {
@@ -72,17 +72,18 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'JAL',
+      title: 'LangJAL',
       logo: {
         alt: 'JAL Logo',
         src: 'img/jal-logo.svg',
       },
       items: [
+        {href: 'https://jal.yamad.jp/jaspera/', label: 'Jaspera で試す', position: 'right'},
         {
           type: 'docSidebar',
           sidebarId: 'jalSidebar',
           position: 'left',
-          label: 'Docs',
+          label: 'ドキュメント',
         },
         {
           label: 'はじめる',
@@ -95,6 +96,10 @@ const config: Config = {
             {
               label: 'はじめに',
               to: '/docs/intro',
+            },
+            {
+              label: 'Jaspera の使い方',
+              to: '/docs/usage/jaspera',
             },
             {
               label: 'チュートリアル',
@@ -160,12 +165,12 @@ const config: Config = {
           position: 'right',
         },
         {
-          label: 'Tools',
+          label: 'ツール',
           position: 'right',
           items: [
             {
               label: 'JAL CLI Compiler',
-              href: 'https://github.com/PeyaPeyaPeyang/LangJAL/releases',
+              href: 'https://github.com/JVMLand/LangJAL/releases',
             },
             {
               label: 'Gradle Plugin',
@@ -178,7 +183,7 @@ const config: Config = {
           ],
         },
         {
-          href: 'https://github.com/PeyaPeyaPeyang/JVMAssemblyLanguage',
+          href: 'https://github.com/JVMLand/LangJAL',
           label: 'GitHub',
           position: 'right',
         },
@@ -188,7 +193,7 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'ドキュメント',
           items: [
             {
               label: 'はじめに',
@@ -201,15 +206,16 @@ const config: Config = {
           ],
         },
         {
-          title: 'Tools',
+          title: 'ツール',
           items: [
+            {label: 'Jaspera — サンドボックス', href: 'https://jal.yamad.jp/jaspera/'},
             {
               label: 'Javasm IntelliJ Plugin',
               href: 'https://plugins.jetbrains.com/plugin/27944-javasm',
             },
             {
               label: 'JAL CLI Compiler',
-              href: 'https://github.com/PeyaPeyaPeyang/LangJAL/releases',
+              href: 'https://github.com/JVMLand/LangJAL/releases',
             },
             {
               label: 'Gradle Plugin',
@@ -218,7 +224,7 @@ const config: Config = {
           ],
         },
         {
-          title: 'More',
+          title: '開発・ソースコード',
           items: [
             {
               label: 'Javasm GitHub',
@@ -226,16 +232,12 @@ const config: Config = {
             },
             {
               label: 'Language GitHub',
-              href: 'https://github.com/PeyaPeyaPeyang/JVMAssemblyLanguage',
+              href: 'https://github.com/JVMLand/LangJAL',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Peyang.
-      LangJAL is made with ❤ by Peyang and LangJAL contributors.
-      JAL documentation for the Sun Java platform and modern JVM bytecode.
-      Java™ およびすべての Java™ 関連の商標は，米国 Sun Microsystems, Inc. の米国およびその他の国における商標または登録商標です。
-      `
+      copyright: `Copyright © ${new Date().getFullYear()} Peyang and LangJAL contributors.`
     },
     prism: {
       theme: prismThemes.github,

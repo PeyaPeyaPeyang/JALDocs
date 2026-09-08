@@ -23,12 +23,12 @@ import {
 import styles from './styles.module.css';
 
 const legacyTiles = [
-  {label: 'Go JAL', icon: faPlay},
-  {label: 'JAL + IntelliJ', icon: faBolt},
-  {label: 'StackMapFrame', icon: faLayerGroup},
-  {label: 'Bytecode One', icon: faCube},
-  {label: 'JAL Academy', icon: faGraduationCap},
-  {label: 'JAL Magazine', icon: faBookOpen},
+  {label: 'Jaspera で実行', icon: faPlay, href: 'https://jal.yamad.jp/jaspera/'},
+  {label: 'Javasm・CLI', icon: faBolt, href: '/docs/usage/tooling'},
+  {label: 'スタックマップ', icon: faLayerGroup, href: '/docs/language-guide/control/stackmap-and-verification'},
+  {label: '命令を調べる', icon: faCube, href: '/docs/language-guide/runtime/instructions'},
+  {label: 'チュートリアル', icon: faGraduationCap, href: '/docs/usage/tutorial'},
+  {label: '構文ガイド', icon: faBookOpen, href: '/docs/language-guide/basics/syntax'},
 ];
 
 function IconLabel({
@@ -58,60 +58,52 @@ export default function HomepageRetroHero(): ReactNode {
           <div className={styles.retroBrand}>
             <img className={styles.logoMark} src={logoUrl} alt="" />
             <span>
-              Jal<span className={styles.trademark}>™</span>
+              LangJAL
             </span>
           </div>
-          <nav className={styles.retroNav} aria-label="Primary">
-            <Link to="/docs/intro">
+          <nav className={styles.retroNav} aria-label="メインメニュー">
+            <Link to="/docs/usage/tooling">
               <IconLabel className={styles.navLabel} icon={faDownload}>
-                ダウンロード
+                CLI・IDE
               </IconLabel>
             </Link>
             <Link to="/docs/language-guide/basics/syntax">
               <IconLabel className={styles.navLabel} icon={faCircleQuestion}>
-                ヘルプ
+                構文ガイド
               </IconLabel>
             </Link>
           </nav>
-          <label className={styles.retroSearch}>
-            <span>
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-              <span>検索</span>
-            </span>
-            <input aria-label="検索" />
-          </label>
+          <a className={styles.sandboxLink} href="https://jal.yamad.jp/jaspera/">Jaspera を開く</a>
         </div>
       </div>
       <div className={styles.heroInner}>
         <section className={styles.heroCopy}>
           <Heading as="h1" className={styles.heroTitle}>
-            あなたとJAL,
+            JVM の命令を，
             <br />
-            今すぐアセンブ
-            <br />
-            ル
+            書いて学ぶ。
           </Heading>
           <div className={styles.actions}>
-            <Link className={styles.downloadButton} to="/docs/intro">
+            <Link className={styles.downloadButton} to="/docs/usage/tutorial">
               <IconLabel className={styles.buttonLabel} icon={faDownload}>
-                無料Jalのダウンロード
+                最初のプログラムを動かす
               </IconLabel>
             </Link>
           </div>
           <div className={styles.legacyLinks}>
             <Link to="/docs/language-guide/basics/syntax">
               <IconLabel className={styles.inlineLinkLabel} icon={faBookOpen}>
-                JALとは
+                JAL の書き方
               </IconLabel>
             </Link>
             <Link to="/docs/usage/tooling">
               <IconLabel className={styles.inlineLinkLabel} icon={faTerminal}>
-                JALの有無のチェック
+                ツールを導入する
               </IconLabel>
             </Link>
             <Link to="/docs/language-guide/runtime/instructions">
               <IconLabel className={styles.inlineLinkLabel} icon={faCodeBranch}>
-                サポート情報
+                命令を調べる
               </IconLabel>
             </Link>
           </div>
@@ -138,10 +130,10 @@ export default function HomepageRetroHero(): ReactNode {
         <strong>JALについて</strong>
         <div className={styles.tileRow}>
           {legacyTiles.map((tile) => (
-            <div className={styles.legacyTile} key={tile.label}>
+            <Link className={styles.legacyTile} to={tile.href} key={tile.label}>
               <FontAwesomeIcon className={styles.tileIcon} icon={tile.icon} />
               <span>{tile.label}</span>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

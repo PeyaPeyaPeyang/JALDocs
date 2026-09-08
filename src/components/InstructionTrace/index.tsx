@@ -234,19 +234,22 @@ export default function InstructionTrace(props: InstructionTraceProps): ReactNod
             <span className={styles.line} key={`${line.code}-${index}`} tabIndex={0}>
               <span className={styles.lineNumber}>{index + 1}</span>
               <InstructionText code={line.code} />
+              {(line.stack.length > 0 || line.locals.length > 0) &&
+                !/^\s*(?:public|private|protected|static|[ialfd]?return)\b|:\s*$|^\s*[{}]\s*$/.test(line.code) && (
               <span className={styles.tooltip} role="tooltip">
                 <span className={styles.tooltipTitle}>実行後の状態</span>
                 <span className={styles.stateGrid}>
                   <span>
-                    <span className={styles.stateLabel}>Stack</span>
+                    <span className={styles.stateLabel}>スタック</span>
                     <StateList items={line.stack} emptyLabel="空" />
                   </span>
                   <span>
-                    <span className={styles.stateLabel}>Locals</span>
+                    <span className={styles.stateLabel}>ローカル変数</span>
                     <StateList items={line.locals} emptyLabel="なし" />
                   </span>
                 </span>
               </span>
+              )}
             </span>
           ))}
         </code>

@@ -13,7 +13,7 @@ const sidebars: SidebarsConfig = {
         type: 'doc',
         id: 'usage/README',
       },
-      items: ['usage/README', 'usage/tutorial', 'usage/tooling', 'usage/examples'],
+      items: ['usage/README', 'usage/tutorial', 'usage/jaspera', 'usage/tooling', 'usage/examples'],
     },
     {
       type: 'category',
