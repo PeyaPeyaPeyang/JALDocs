@@ -26,7 +26,7 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'PeyaPeyaPeyang',
+  organizationName: 'JVMLand',
   projectName: 'JALDocs',
 
   onBrokenLinks: 'throw',
@@ -46,7 +46,7 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl:
-            'https://github.com/PeyaPeyaPeyang/JALDocs/edit/main/',
+            'https://github.com/JVMLand/JALDocs/edit/main/',
         },
         blog: false,
         theme: {
@@ -174,11 +174,11 @@ const config: Config = {
             },
             {
               label: 'Gradle Plugin',
-              href: 'https://github.com/PeyaPeyaPeyang/jal-gradle-plugin',
+              href: 'https://github.com/JVMLand/jal-gradle-plugin',
             },
             {
               label: 'Javasm GitHub',
-              href: 'https://github.com/PeyaPeyaPeyang/Javasm',
+              href: 'https://github.com/JVMLand/Javasm',
             },
           ],
         },
@@ -219,7 +219,7 @@ const config: Config = {
             },
             {
               label: 'Gradle Plugin',
-              href: 'https://github.com/PeyaPeyaPeyang/jal-gradle-plugin',
+              href: 'https://github.com/JVMLand/jal-gradle-plugin',
             },
           ],
         },
@@ -228,7 +228,7 @@ const config: Config = {
           items: [
             {
               label: 'Javasm GitHub',
-              href: 'https://github.com/PeyaPeyaPeyang/Javasm',
+              href: 'https://github.com/JVMLand/Javasm',
             },
             {
               label: 'Language GitHub',

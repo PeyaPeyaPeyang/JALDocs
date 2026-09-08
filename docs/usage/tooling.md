@@ -41,4 +41,4 @@ Javasm の解析によるスタック表示と，JVM デバッガが取得する
 
 ## Gradle のビルドに組み込む
 
-[jal-gradle-plugin](https://github.com/PeyaPeyaPeyang/jal-gradle-plugin) を使うと，Gradle から JAL をコンパイルできます。プラグインの ID，バージョン，設定項目はリンク先の README に従ってください。ソースの配置とクラスの出力先を，既存の Java ビルドに合わせて設定します。
+[jal-gradle-plugin](https://github.com/JVMLand/jal-gradle-plugin) を使うと，Gradle から JAL をコンパイルできます。プラグインの ID，バージョン，設定項目はリンク先の README に従ってください。ソースの配置とクラスの出力先を，既存の Java ビルドに合わせて設定します。
