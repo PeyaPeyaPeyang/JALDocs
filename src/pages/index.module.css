@@ -1,9 +1,10 @@
 .hero {
   background: #ffffff;
   color: #1e1e1e;
-  font-family: "M PLUS 1p", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  font-family:
+    "M PLUS 1p", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
   min-height: 100vh;
-  padding: 0 1cm 1cm;
+  padding: 0 1.5rem 2rem;
 }
 
 .metricLabel,
@@ -27,7 +28,10 @@
     linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
     linear-gradient(135deg, #080b10 0%, #172033 48%, #15181e 100%);
-  background-size: 44px 44px, 44px 44px, auto;
+  background-size:
+    44px 44px,
+    44px 44px,
+    auto;
   color: #f6f8fa;
   overflow: hidden;
   position: relative;
@@ -78,10 +82,10 @@
 
 .modernCopy h2 {
   color: #ffffff;
-  font-size: 3.25rem;
-  line-height: 1.08;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.35;
   margin: 0 0 1.25rem;
-  max-width: 13ch;
+  max-width: none;
 }
 
 .modernCopy p {
@@ -364,23 +368,22 @@
   font-weight: 900;
 }
 
-[data-theme='dark'] .hero {
+[data-theme="dark"] .hero {
   background: #ffffff;
   color: #1e1e1e;
 }
 
-[data-theme='dark'] .syntaxSection {
+[data-theme="dark"] .syntaxSection {
   background:
-    linear-gradient(90deg, rgba(61, 114, 192, 0.16), transparent 45%),
-    #0f141c;
+    linear-gradient(90deg, rgba(61, 114, 192, 0.16), transparent 45%), #0f141c;
 }
 
-[data-theme='dark'] .tooling {
+[data-theme="dark"] .tooling {
   background: #10151f;
   border-color: #2c3442;
 }
 
-[data-theme='dark'] .toolLinks a {
+[data-theme="dark"] .toolLinks a {
   background: #171f2d;
   border-color: #2c3442;
   color: #f6f8fa;
@@ -431,5 +434,43 @@
   .codeHeader {
     align-items: flex-start;
     flex-direction: column;
+  }
+}
+
+.modernCopy .introDetail {
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+.introActions,
+.sandboxActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 1.5rem;
+}
+.introActions a {
+  color: #a7d8ff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.introActions a:hover {
+  color: white;
+}
+.sandboxActions a:first-child {
+  background: var(--ifm-color-primary);
+  color: white;
+  padding: 0.7rem 1.2rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.workflow .sectionHeader p {
+  max-width: 46rem;
+  margin: 1rem 0 0;
+  line-height: 1.9;
+}
+@media screen and (max-width: 480px) {
+  .hero {
+    padding: 0 0.75rem 1.5rem;
   }
 }

@@ -1,442 +1,310 @@
 .retroFrame {
-  aspect-ratio: 4 / 3;
-  margin: 0 auto;
+  width: min(100%, 1100px);
+  margin: auto;
   position: relative;
-  width: min(83.333%, calc((100vh - 2cm) * 4 / 3));
+  padding-bottom: 3rem;
 }
-
-.retroFrame a:hover span {
-  color: #d00000;
-}
-
 .retroBar {
-  background: linear-gradient(#f40000 0%, #d90000 45%, #a40000 100%);
-  color: #ffffff;
-  margin: 0 auto;
-  height: 18%;
-  min-height: 0;
-  width: 100%;
+  height: 120px;
+  background: linear-gradient(#f40000, #d90000 45%, #a40000);
+  color: white;
 }
-
 .retroBarInner {
-  align-items: center;
   display: grid;
-  gap: 2rem;
-  grid-template-columns: 19rem 1fr 17.5rem;
-  height: 100%;
-  padding: 0 2.8rem;
-}
-
-.retroBrand {
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
   align-items: center;
+  height: 100%;
+  padding: 0 1.5rem;
+}
+.retroBrand {
   display: flex;
+  align-items: center;
   gap: 0.75rem;
 }
-
 .logoMark {
   height: 5rem;
   width: 5rem;
 }
-
 .retroBrand > span {
-  color: #ffffff;
-  font-family: "Fira Sans", sans-serif;
-  font-size: 2.75rem;
-  font-weight: 400;
+  color: white;
+  font:
+    2.75rem Arial,
+    sans-serif;
 }
-
 .retroNav {
-  align-items: flex-end;
-  align-self: stretch;
   display: flex;
-  gap: 3.1rem;
+  align-self: stretch;
+  align-items: flex-end;
   justify-content: center;
-  padding-bottom: 1.75rem;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
 }
-
 .retroNav a {
-  color: #ffffff;
-  font-size: 1.18rem;
+  color: white;
+  font-size: 1rem;
+  white-space: nowrap;
 }
-
-.navLabel,
-.buttonLabel,
-.inlineLinkLabel,
-.developerHeading,
-.developerLinkLabel {
-  align-items: center;
-  display: inline-flex;
-  gap: 0.55rem;
-}
-
 .navLabel svg,
 .buttonLabel svg,
 .inlineLinkLabel svg,
 .developerHeading svg,
 .developerLinkLabel svg {
-  flex: 0 0 auto;
-}
-
-.retroSearch {
-  align-self: start;
-  background: #ffffff;
-  border: 1px solid #bdbdbd;
-  color: #444444;
-  display: grid;
-  grid-template-columns: 1fr 2.35rem;
-  height: 1.85rem;
-  margin-top: 0.95rem;
-}
-
-.retroSearch span {
-  align-items: center;
-  display: inline-flex;
-  gap: 0.45rem;
-  font-size: 0.9rem;
-  line-height: 1.75rem;
-  padding-left: 0.55rem;
-}
-
-.retroSearch::after {
-  border-left: 1px solid #bdbdbd;
-  content: "";
-  font-size: 1rem;
-  line-height: 1.75rem;
-  text-align: center;
-}
-
-.retroSearch input {
   display: none;
 }
-
+.retroSearch {
+  align-self: start;
+  justify-self: end;
+  display: flex;
+  width: min(100%, 240px);
+  height: 26px;
+  margin-top: 1rem;
+  border: 1px solid #aaa;
+  background: white;
+}
+.retroSearch input[type="search"] {
+  min-width: 0;
+  width: 100%;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 0;
+  background: white;
+  color: #333;
+  font:
+    12px Arial,
+    sans-serif;
+}
+.retroSearch button {
+  width: 28px;
+  flex-shrink: 0;
+  border: 0;
+  border-left: 1px solid #ccc;
+  background: #f6f6f6;
+  color: #666;
+  cursor: pointer;
+  font-size: 12px;
+}
 .heroInner {
   display: grid;
-  gap: 2.6rem;
-  grid-template-columns: minmax(0, 1fr) 16.5rem;
-  margin: 0 auto;
-  max-width: none;
-  min-height: 48%;
-  padding: 1.15rem 0 0;
-  width: 100%;
+  grid-template-columns: minmax(0, 1fr) 22%;
+  gap: 1.5rem;
+  padding: 2rem 0;
 }
-
 .heroCopy {
   text-align: center;
 }
-
 .heroTitle {
-  color: #666666;
+  color: #666;
   font-family: Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
-  font-size: clamp(3.7rem, 6.2vw, 6.45rem);
+  font-size: clamp(2.5rem, 5.4vw, 5.1rem);
   font-weight: 400;
+  line-height: 1.02;
   letter-spacing: 0;
-  line-height: 0.94;
-  margin: 0 auto 2.05rem;
+  margin: 0 auto 2rem;
 }
-
 .actions {
   display: flex;
   justify-content: center;
 }
-
 .downloadButton {
-  background: linear-gradient(#ffb0b0 0%, #f01717 48%, #bd0000 50%, #d80000 100%);
+  background: linear-gradient(#ffb0b0, #f01717 48%, #bd0000 50%, #d80000);
   border: 1px solid #d40000;
-  border-radius: 7px;
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.75);
-  color: #ffffff;
-  display: inline-block;
-  font-size: 1.12rem;
-  font-weight: 500;
-  min-width: 22rem;
-  padding: 0.9rem 1.75rem;
-  text-align: center;
-  text-decoration: none;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  box-shadow: inset 0 1px #ffffffbf;
+  color: white;
+  min-width: 17rem;
+  padding: 0.85rem 1.5rem;
+  font-size: 1rem;
+  text-shadow: 0 -1px #0004;
 }
-
 .downloadButton:hover {
-  color: #ffffff;
+  color: white;
   text-decoration: none;
+  filter: brightness(1.08);
 }
-
-.buttonLabel {
-  justify-content: center;
-}
-
 .legacyLinks {
-  align-items: center;
-  color: #d00000;
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.75rem;
   justify-content: center;
-  margin-top: 1.35rem;
+  margin-top: 1.5rem;
 }
-
 .legacyLinks a {
-  color: #333333;
-  font-size: 1.03rem;
+  color: #555;
+  font-size: 0.85rem;
   text-decoration: underline;
 }
-
 .legacyLinks a::before {
+  content: "»";
   color: #d00000;
-  content: "";
-  margin-right: 0.45rem;
-  text-decoration: none;
+  margin-right: 0.35rem;
 }
-
-.inlineLinkLabel {
-  color: #333333;
-  display: inline;
-}
-
-.inlineLinkLabel svg {
-  color: #d00000;
-  margin-right: 0.4rem;
-  vertical-align: -0.08em;
-}
-
-.inlineLinkLabel > span {
-  text-decoration: underline;
-}
-
-.legacyLinks .inlineLinkLabel svg {
-  display: none;
-}
-
-.retroNav .navLabel svg,
-.developerHeading svg,
-.developerLinkLabel svg {
-  display: none;
-}
-
 .developerBox {
+  align-self: start;
   background: linear-gradient(#f1f1f1, #e8e8e8);
-  color: #202020;
-  font-size: 0.98rem;
-  min-height: 10.2rem;
-  padding: 1.1rem 1rem;
+  color: #333;
+  min-height: 8rem;
+  padding: 1rem;
+  font-size: 0.85rem;
 }
-
 .developerBox strong {
   display: block;
   margin-bottom: 0.75rem;
 }
-
-.developerHeading {
-  color: #202020;
-}
-
 .developerBox a {
-  color: #1e3268;
   display: block;
-  line-height: 1.35;
+  color: #555;
+  line-height: 1.4;
   text-decoration: underline;
+  margin-top: 0.5rem;
 }
-
-.developerBox a + a {
-  margin-top: 0.45rem;
-}
-
-.developerLinkLabel svg {
-  color: #d00000;
-}
-
 .heroBottom {
-  border-top: 1px solid #b8b8b8;
-  margin: 1.05rem auto 0;
-  max-width: none;
-  padding: 0.45rem 0 1.1rem;
-  width: 100%;
+  border-top: 1px solid #aaa;
+  padding: 0.5rem 0 1rem;
 }
-
 .heroBottom > strong {
-  color: #222222;
+  color: #333;
   display: block;
-  font-size: 1.05rem;
-  margin-bottom: 0.85rem;
+  font-size: 0.85rem;
+  margin-bottom: 0.6rem;
 }
-
 .tileRow {
   display: grid;
-  gap: 0.85rem;
   grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.6rem;
 }
-
 .legacyTile {
-  align-items: center;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.58), transparent 55%),
-    linear-gradient(135deg, #0b7f9c, #f2f4f6);
-  border: 1px solid #9aa7ad;
-  box-shadow: 0 10px 12px rgba(0, 0, 0, 0.08);
-  color: #173040;
   display: flex;
   flex-direction: column;
-  font-size: 1rem;
-  font-weight: 800;
-  gap: 0.5rem;
-  height: clamp(4.8rem, 7.2vw, 7.5rem);
+  align-items: center;
   justify-content: center;
-  padding: 0.8rem;
+  min-height: 6.5rem;
+  padding: 0.6rem;
+  gap: 0.75rem;
+  border: 1px solid #9aa7ad;
+  background: linear-gradient(135deg, #0b7f9c, #f2f4f6);
+  box-shadow: 0 6px 8px #0001;
+  color: #173040;
   text-align: center;
+  font-size: 0.85rem;
 }
-
+.legacyTile:hover {
+  color: #111;
+  text-decoration: underline;
+}
 .tileIcon {
-  font-size: 1.15rem;
+  font-size: 1.8rem;
 }
-
 .legacyTile:nth-child(2) {
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.65), transparent 55%),
-    linear-gradient(135deg, #bfe8ff, #ffffff);
+  background: linear-gradient(135deg, #bfe8ff, white);
 }
-
 .legacyTile:nth-child(3) {
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.65), transparent 55%),
-    linear-gradient(135deg, #c7e9b0, #ffffff);
+  background: linear-gradient(135deg, #c7e9b0, white);
 }
-
 .legacyTile:nth-child(4) {
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.38), transparent 55%),
-    linear-gradient(135deg, #090909, #f03f9e);
-  color: #ffffff;
+  background: linear-gradient(135deg, #d5dce8, white);
 }
-
 .legacyTile:nth-child(5) {
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.65), transparent 55%),
-    linear-gradient(135deg, #d71920, #ffffff);
+  background: linear-gradient(135deg, #d71920, white);
 }
-
 .legacyTile:nth-child(6) {
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.65), transparent 55%),
-    linear-gradient(135deg, #77b7cc, #ffffff);
+  background: linear-gradient(135deg, #77b7cc, white);
 }
-
 .scrollPrompt {
-  align-items: center;
-  color: #333333;
   display: flex;
   flex-direction: column;
-  font-size: 0.9rem;
-  gap: 0.15rem;
-  margin: 0.75rem auto 0;
-  text-decoration: none;
+  align-items: center;
+  gap: 0.2rem;
   width: max-content;
+  margin: 1rem auto 0;
+  color: #555;
+  font-size: 0.8rem;
 }
-
-.scrollPrompt:hover {
-  color: #b00000;
-  text-decoration: none;
-}
-
 .scrollPrompt span:last-child {
   color: #d00000;
-  font-size: 1.45rem;
-  line-height: 1;
+  font-size: 1.3rem;
 }
-
 .oracleLikeLogo {
-  bottom: 0.75rem;
-  color: #ee0000;
-  font-family: "Montserrat", Arial, Helvetica, sans-serif;
-  font-size: clamp(1rem, 1.7vw, 1.6rem);
-  font-weight: 550;
-  letter-spacing: 0.08em;
-  line-height: 1;
   position: absolute;
-  right: 0.4rem;
-  transform: scaleX(1.28);
-  transform-origin: right center;
+  right: 0.25rem;
+  bottom: 0.5rem;
+  color: #e00;
+  font:
+    1.3rem Arial,
+    sans-serif;
+  letter-spacing: 0.1em;
 }
-
-.trademark {
-  font-size: 15px;
-  position: relative;
-  top: -1.4em;
-}
-
-@media screen and (max-width: 996px) {
-  .retroFrame {
-    aspect-ratio: auto;
-    width: 100%;
-  }
-
+@media (max-width: 760px) {
   .retroBar {
-    max-width: none;
-    width: 100%;
+    height: 100px;
   }
-
   .retroBarInner {
-    grid-template-columns: 1fr;
-    height: auto;
-    padding: 1.25rem;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 1rem;
   }
-
   .retroNav {
-    justify-content: flex-start;
+    justify-content: flex-end;
+    padding-bottom: 1rem;
   }
-
   .retroSearch {
     display: none;
   }
-
-  .heroInner,
-  .heroBottom {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    width: 100%;
+  .logoMark {
+    width: 3rem;
+    height: 3rem;
   }
-
-  .heroInner {
-    grid-template-columns: 1fr;
+  .retroBrand > span {
+    font-size: 2rem;
   }
-
   .heroTitle {
-    font-size: 4.3rem;
+    font-size: clamp(2rem, 7.6vw, 3.8rem);
   }
-
+  .heroInner {
+    grid-template-columns: minmax(0, 1fr) 24%;
+    gap: 0.75rem;
+  }
+  .developerBox {
+    font-size: 0.75rem;
+    padding: 0.75rem;
+  }
+  .legacyLinks {
+    gap: 0.6rem;
+  }
+  .legacyLinks a {
+    font-size: 0.8rem;
+  }
   .tileRow {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-
-@media screen and (max-width: 640px) {
-  .heroTitle {
-    font-size: clamp(1.5rem, 5.8vw, 2rem);
-    line-height: 1.4;
+@media (max-width: 480px) {
+  .retroNav {
+    gap: 0.9rem;
   }
-
-  .developerBox {
-    display: none;
+  .retroNav a {
+    font-size: 0.8rem;
   }
-
   .heroInner {
     display: block;
   }
-
+  .heroTitle {
+    font-size: 9vw;
+  }
+  .developerBox {
+    display: none;
+  }
   .downloadButton {
-    min-width: 16rem;
+    min-width: 0;
+    width: 85%;
+    padding: 0.75rem;
+    font-size: 0.95rem;
   }
-
+  .legacyTile {
+    padding: 0.5rem;
+    min-height: 5.5rem;
+    font-size: 0.75rem;
+  }
   .tileRow {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
   }
 }
-
-.sandboxLink {
-  color: white;
-  justify-self: end;
-  border: 1px solid currentColor;
-  padding: .5rem .75rem;
-  border-radius: 3px;
-  font-weight: 600;
-}
-.retroBrand > span {font-size: clamp(1.25rem, 2.6vw, 2.5rem);}
-.legacyTile {text-decoration: none; color: inherit;}

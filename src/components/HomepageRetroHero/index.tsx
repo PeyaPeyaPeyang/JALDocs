@@ -1,9 +1,9 @@
-import type {ReactNode} from 'react';
-import Link from '@docusaurus/Link';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import Heading from '@theme/Heading';
-import type {IconDefinition} from '@fortawesome/fontawesome-svg-core';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import type { ReactNode } from "react";
+import Link from "@docusaurus/Link";
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import Heading from "@theme/Heading";
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowDown,
   faBookOpen,
@@ -18,17 +18,33 @@ import {
   faMagnifyingGlass,
   faPlay,
   faTerminal,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 
-import styles from './styles.module.css';
+import styles from "./styles.module.css";
 
 const legacyTiles = [
-  {label: 'Jaspera で実行', icon: faPlay, href: 'https://jal.yamad.jp/jaspera/'},
-  {label: 'Javasm・CLI', icon: faBolt, href: '/docs/usage/tooling'},
-  {label: 'スタックマップ', icon: faLayerGroup, href: '/docs/language-guide/control/stackmap-and-verification'},
-  {label: '命令を調べる', icon: faCube, href: '/docs/language-guide/runtime/instructions'},
-  {label: 'チュートリアル', icon: faGraduationCap, href: '/docs/usage/tutorial'},
-  {label: '構文ガイド', icon: faBookOpen, href: '/docs/language-guide/basics/syntax'},
+  { label: "Go JAL", icon: faPlay, href: "https://jal.yamad.jp/jaspera/" },
+  { label: "Javasm・CLI", icon: faBolt, href: "/docs/usage/tooling" },
+  {
+    label: "スタックマップ",
+    icon: faLayerGroup,
+    href: "/docs/language-guide/control/stackmap-and-verification",
+  },
+  {
+    label: "命令を調べる",
+    icon: faCube,
+    href: "/docs/language-guide/runtime/instructions",
+  },
+  {
+    label: "チュートリアル",
+    icon: faGraduationCap,
+    href: "/docs/usage/tutorial",
+  },
+  {
+    label: "構文ガイド",
+    icon: faBookOpen,
+    href: "/docs/language-guide/basics/syntax",
+  },
 ];
 
 function IconLabel({
@@ -49,7 +65,7 @@ function IconLabel({
 }
 
 export default function HomepageRetroHero(): ReactNode {
-  const logoUrl = useBaseUrl('/img/jal-logo.svg');
+  const logoUrl = useBaseUrl("/img/jal-logo.svg");
 
   return (
     <div className={styles.retroFrame}>
@@ -57,53 +73,69 @@ export default function HomepageRetroHero(): ReactNode {
         <div className={styles.retroBarInner}>
           <div className={styles.retroBrand}>
             <img className={styles.logoMark} src={logoUrl} alt="" />
-            <span>
-              LangJAL
-            </span>
+            <span>Jal</span>
           </div>
           <nav className={styles.retroNav} aria-label="メインメニュー">
             <Link to="/docs/usage/tooling">
               <IconLabel className={styles.navLabel} icon={faDownload}>
-                CLI・IDE
+                ダウンロード
               </IconLabel>
             </Link>
             <Link to="/docs/language-guide/basics/syntax">
               <IconLabel className={styles.navLabel} icon={faCircleQuestion}>
-                構文ガイド
+                ヘルプ
               </IconLabel>
             </Link>
           </nav>
-          <a className={styles.sandboxLink} href="https://jal.yamad.jp/jaspera/">Jaspera を開く</a>
+          <form
+            className={styles.retroSearch}
+            action="https://www.google.com/search"
+            method="get"
+            role="search"
+          >
+            <input type="hidden" name="as_sitesearch" value="jal.yamad.jp" />
+            <input
+              type="search"
+              name="q"
+              aria-label="サイト内検索"
+              placeholder="検索"
+              required
+            />
+            <button type="submit" aria-label="検索">
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </button>
+          </form>
         </div>
       </div>
       <div className={styles.heroInner}>
         <section className={styles.heroCopy}>
           <Heading as="h1" className={styles.heroTitle}>
-            JVM の命令を，
+            あなたとJAL,
             <br />
-            書いて学ぶ。
+            今すぐアセンブ
+            <br />ル
           </Heading>
           <div className={styles.actions}>
-            <Link className={styles.downloadButton} to="/docs/usage/tutorial">
+            <Link className={styles.downloadButton} to="/docs/usage/tooling">
               <IconLabel className={styles.buttonLabel} icon={faDownload}>
-                最初のプログラムを動かす
+                無料Jalのダウンロード
               </IconLabel>
             </Link>
           </div>
           <div className={styles.legacyLinks}>
             <Link to="/docs/language-guide/basics/syntax">
               <IconLabel className={styles.inlineLinkLabel} icon={faBookOpen}>
-                JAL の書き方
+                JALとは
               </IconLabel>
             </Link>
             <Link to="/docs/usage/tooling">
               <IconLabel className={styles.inlineLinkLabel} icon={faTerminal}>
-                ツールを導入する
+                JALの有無のチェック
               </IconLabel>
             </Link>
             <Link to="/docs/language-guide/runtime/instructions">
               <IconLabel className={styles.inlineLinkLabel} icon={faCodeBranch}>
-                命令を調べる
+                サポート情報
               </IconLabel>
             </Link>
           </div>
@@ -120,7 +152,10 @@ export default function HomepageRetroHero(): ReactNode {
             </IconLabel>
           </Link>
           <Link to="/docs/language-guide/runtime/instructions">
-            <IconLabel className={styles.developerLinkLabel} icon={faCodeBranch}>
+            <IconLabel
+              className={styles.developerLinkLabel}
+              icon={faCodeBranch}
+            >
               命令リファレンス
             </IconLabel>
           </Link>
